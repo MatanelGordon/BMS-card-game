@@ -1,6 +1,5 @@
-import { BetType } from '../logic/types';
-import { Card } from '../logic/Card';
 import { Game } from '../logic/Game';
+import { BetType } from '../logic/types';
 import {
 	GameBetterCardBtn,
 	GameWorseCardBtn,
@@ -9,13 +8,20 @@ import {
 	StatusContainer,
 	StatusLabel,
 } from './constants';
+import { GameSettingsUI } from './GameSettingsUI';
+import { DeckSource } from './types';
 
 export class GameUI<TCard> {
+	readonly gameSettings: GameSettingsUI;
 
-	constructor(protected readonly game: Game<TCard>) {}
+	constructor(protected readonly game: Game<TCard>) {
+		this.gameSettings = new GameSettingsUI();
+	}
 
 	init() {
+		this.gameSettings.init();
 		this.reset();
+
 		GameBetterCardBtn.addEventListener('click', () => {
 			this.bet(BetType.BETTER);
 		});
@@ -26,7 +32,16 @@ export class GameUI<TCard> {
 
 		ResetButton.addEventListener('click', () => {
 			this.show(false);
-            this.reset();
+			this.reset();
+		});
+	}
+
+	onStart(cb: (deckSource: DeckSource, game: Game<TCard>) => void) {
+		this.gameSettings.onSettingsApply((deckSource: DeckSource) => {
+			this.reset();
+			cb(deckSource, this.game);
+			this.displayCard(this.game.card);
+			this.show(true);
 		});
 	}
 
@@ -46,14 +61,14 @@ export class GameUI<TCard> {
 	}
 
 	reset() {
-        this.game.reset();
+		this.game.reset();
 		this.show(false);
 		ScoreLabel.textContent = '0';
 		StatusLabel.textContent = '';
 	}
 
-	displayCard(card: Card) {
-		StatusLabel.textContent = `Your Card: ${card.toString()}`;
+	displayCard(card: TCard) {
+		StatusLabel.textContent = `Your Card: ${card}`;
 	}
 
 	private update(game: Game<TCard>) {

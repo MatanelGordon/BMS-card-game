@@ -3,22 +3,18 @@ import { DeckBuilder } from './logic/DeckBuilder';
 import { FirstCardPickStrategy } from './logic/FirstCardPickStrategy';
 import { Game } from './logic/Game';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
-import { GameSettingsUI } from './UI/GameSettingsUI';
+import './style.css';
 import { GameUI } from './UI/GameUI';
 import { DeckSource } from './UI/types';
-import './style.css';
 
 const valueFirstComperator = new ValueFirstCardComperator();
 const pickFirstCardStrategy = new FirstCardPickStrategy();
 
 const game = new Game(valueFirstComperator);
 
-const gameSettings = new GameSettingsUI();
 const gameUI = new GameUI(game);
 
-gameSettings.init();
-
-gameSettings.onSettingsApply((deckSource) => {
+gameUI.onStart((deckSource, game) => {
 	const deckBuilder = new DeckBuilder();
 
 	switch (deckSource) {
@@ -33,8 +29,6 @@ gameSettings.onSettingsApply((deckSource) => {
 	const deck = deckBuilder.getDeck();
 
 	game.startGame(deck, pickFirstCardStrategy);
-	gameUI.displayCard(game.card);
-	gameUI.show(true);
 });
 
 gameUI.init();

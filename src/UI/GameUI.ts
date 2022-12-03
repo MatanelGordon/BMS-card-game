@@ -10,22 +10,32 @@ import {
 	StatusLabel,
 } from './constants';
 
-export class GameUI {
-	init<TCard>(game: Game<TCard>) {
+export class GameUI<TCard> {
+
+	constructor(protected readonly game: Game<TCard>) {}
+
+	init() {
 		this.reset();
 		GameBetterCardBtn.addEventListener('click', () => {
-			game.bet(BetType.BETTER);
-			this.update(game);
+			this.bet(BetType.BETTER);
 		});
 
 		GameWorseCardBtn.addEventListener('click', () => {
-			game.bet(BetType.WORSE);
-			this.update(game);
+			this.bet(BetType.WORSE);
 		});
 
 		ResetButton.addEventListener('click', () => {
 			this.show(false);
 		});
+	}
+
+	bet(betType: BetType) {
+		try {
+			this.game.bet(betType);
+			this.update(this.game);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	show(mode: boolean) {
@@ -44,7 +54,7 @@ export class GameUI {
 		StatusLabel.textContent = `Your Card: ${card.toString()}`;
 	}
 
-	private update<TCard>(game: Game<TCard>) {
+	private update(game: Game<TCard>) {
 		ScoreLabel.textContent = game.score.toString();
 		if (game.isOver) {
 			StatusLabel.textContent = `YOU ${game.status.toString()} `;

@@ -1,12 +1,11 @@
-import { DeckSource } from './types';
-import { toDeckSource } from './utils';
 import {
-    ResetButton,
+	ResetButton,
 	SettingsContainer,
 	SettingsDeckSourceSelect,
 	SettingsStartButton,
 } from './constants';
-import { Game } from '../logic/Game';
+import { DeckSource } from './types';
+import { toDeckSource } from './utils';
 
 export class GameSettingsUI {
 	protected _deckSource?: DeckSource;
@@ -15,7 +14,7 @@ export class GameSettingsUI {
 		return this._deckSource;
 	}
 
-	init<TCard>(game: Game<TCard>) {
+	init() {
 		SettingsDeckSourceSelect.addEventListener('change', () => {
 			const value = SettingsDeckSourceSelect.value;
 			this._deckSource = toDeckSource(value);
@@ -23,13 +22,6 @@ export class GameSettingsUI {
 
 		ResetButton.addEventListener('click', () => {
 			this.show(true);
-		});
-
-		SettingsStartButton.addEventListener('click', () => {
-			if (!this._deckSource) return;
-
-			this.show(false);
-			game.startGame();
 		});
 	}
 

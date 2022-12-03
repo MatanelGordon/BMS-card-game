@@ -1,21 +1,19 @@
 import CardsConfig from './deck-sample.json';
-import { FirstCardPickStrategy } from './logic/FirstCardPickStrategy';
-import { Game } from './logic/Game';
 import { DeckBuilder } from './logic/DeckBuilder';
+import { pickFirstCard } from './logic/FirstCardPickStrategy';
+import { Game } from './logic/Game';
+import { valueFirstComperator } from './logic/ValueFirstComperator';
 import { GameSettingsUI } from './UI/GameSettingsUI';
 import { GameUI } from './UI/GameUI';
 import { DeckSource } from './UI/types';
-import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
+import './style.css';
 
-const byValueComperator = new ValueFirstCardComperator();
-
-const game = new Game(byValueComperator);
+const game = new Game(valueFirstComperator);
 
 const gameSettings = new GameSettingsUI();
-const gameUI = new GameUI();
-const firstCard = new FirstCardPickStrategy();
+const gameUI = new GameUI(game);
 
-gameSettings.init(game);
+gameSettings.init();
 
 gameSettings.onSettingsApply((deckSource) => {
 	const deckBuilder = new DeckBuilder();
@@ -25,16 +23,15 @@ gameSettings.onSettingsApply((deckSource) => {
 			deckBuilder.addCardsValuesToAllTypes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).shuffle();
 			break;
 		case DeckSource.FILE:
-            deckBuilder.fromJson(CardsConfig);
+			deckBuilder.fromJson(CardsConfig);
 			break;
 	}
 
-	game.loadDeck(deckBuilder.getDeck());
-	game.chooseCard(firstCard);
-    game.startGame();
-	
-    gameUI.displayCard(game.card);
-    gameUI.show(true);
+	const deck = deckBuilder.getDeck();
+
+	game.startGame(deck, pickFirstCard);
+	gameUI.displayCard(game.card);
+	gameUI.show(true);
 });
 
-gameUI.init(game);
+gameUI.init();

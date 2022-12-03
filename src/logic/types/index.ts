@@ -1,5 +1,5 @@
-export type { ICardPickStrategy } from "./ICardPickStrategy";
-export type { ICardComparator } from "./ICardComparator";
+export type { PickStrategy } from "./PickStrategy";
+export type { Comparator } from "./Comparator";
 export { BetType } from "./BetType";
 export { CardType } from "./CardType";
 export { GameStatus } from "./GameStatus";

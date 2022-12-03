@@ -1,8 +1,4 @@
-import { Card } from "./Card";
-import { ICardPickStrategy } from "./types";
+import { Card } from './Card';
+import { PickStrategy } from './types';
 
-export class FirstCardPickStrategy implements ICardPickStrategy<Card>{
-    pick(deck: Card[]): Card {
-        return deck[0];
-    }
-}
+export const pickFirstCard: PickStrategy<Card> = (deck: Card[]): Card => deck[0];

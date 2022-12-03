@@ -1,5 +1,5 @@
-import { Card } from './Card';
-import { IPickStrategy } from './types';
+import { Card } from '../Card';
+import { IPickStrategy } from '../types';
 
 export class FirstCardPickStrategy implements IPickStrategy<Card> {
 	pick(deck: Card[]): Card {

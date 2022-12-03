@@ -10,16 +10,20 @@
 		<section id="GameSettings">
 			<label>Choose your deck</label>
 			<select id="DeckSelect">
-				<option value="">Select Deck Source</option>
+				<option value="" selected>Select Deck Source</option>
 				<option value="FILE">Take from configuration</option>
 				<option value="AUTO_GENERATED">Create a new deck</option>
+			</select>
+			<select id="PickType">
+				<option value="" selected>Select Pick Strategy</option>
+				<option value="FIRST">Take First Card</option>
+				<option value="RANDOM">Take a Random Card</option>
 			</select>
 			<button id="StartButton">Start</button>
 		</section>
 		<section id="Game">
 			<button id="BetterCardButton">Next card will be worse</button>
 			<button id="WorseCardButton">Next card will be better</button>
-			<button id="ResetButton">Reset</button>
 		</section>
 		<section id="StatusContainer">
       <div>Score: <span id="Score"></span></div>

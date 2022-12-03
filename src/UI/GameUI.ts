@@ -1,27 +1,27 @@
 import { Game } from '../logic/Game';
-import { BetType } from '../logic/types';
+import { BetType, IPickStrategy } from '../logic/types';
 import {
 	GameBetterCardBtn,
 	GameWorseCardBtn,
-	ResetButton,
 	ScoreLabel,
 	StatusContainer,
-	StatusLabel,
+	StatusLabel
 } from './constants';
-import { GameSettingsUI } from './GameSettingsUI';
-import { DeckSource } from './types';
 
 export class GameUI<TCard> {
-	readonly gameSettings: GameSettingsUI;
+	protected _game?: Game<TCard>;
 
-	constructor(protected readonly game: Game<TCard>) {
-		this.gameSettings = new GameSettingsUI();
+	get game() {
+		if (!this._game) throw new Error('Cannot access game without initialization');
+		return this._game;
+	}
+
+	loadGame(game: Game<TCard>) {
+		this._game = game;
+		this.reset();
 	}
 
 	init() {
-		this.gameSettings.init();
-		this.reset();
-
 		GameBetterCardBtn.addEventListener('click', () => {
 			this.bet(BetType.BETTER);
 		});
@@ -29,20 +29,11 @@ export class GameUI<TCard> {
 		GameWorseCardBtn.addEventListener('click', () => {
 			this.bet(BetType.WORSE);
 		});
-
-		ResetButton.addEventListener('click', () => {
-			this.show(false);
-			this.reset();
-		});
 	}
 
-	onStart(cb: (deckSource: DeckSource, game: Game<TCard>) => void) {
-		this.gameSettings.onSettingsApply((deckSource: DeckSource) => {
-			this.reset();
-			cb(deckSource, this.game);
-			this.displayCard(this.game.card);
-			this.show(true);
-		});
+	startGame(deck: TCard[], pickStrategy: IPickStrategy<TCard>) {
+		this.game.startGame(deck, pickStrategy);
+		this.displayCard(this.game.card);
 	}
 
 	bet(betType: BetType) {
@@ -62,12 +53,11 @@ export class GameUI<TCard> {
 
 	reset() {
 		this.game.reset();
-		this.show(false);
 		ScoreLabel.textContent = '0';
 		StatusLabel.textContent = '';
 	}
 
-	displayCard(card: TCard) {
+	private displayCard(card: TCard) {
 		StatusLabel.textContent = `Your Card: ${card}`;
 	}
 

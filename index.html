@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite App</title>
+	</head>
+	<body>
+		<section id="GameSettings">
+			<label>Choose your deck</label>
+			<select id="DeckSelect">
+				<option value="">Select Deck Source</option>
+				<option value="FILE">Take from configuration</option>
+				<option value="AUTO_GENERATED">Create a new deck</option>
+			</select>
+			<button id="StartButton">Start</button>
+		</section>
+		<section id="Game">
+			<button id="BetterCardButton">Next card will be worse</button>
+			<button id="WorseCardButton">Next card will be better</button>
+			<button id="ResetButton">Reset</button>
+		</section>
+		<section id="StatusContainer">
+      <div>Score: <span id="Score"></span></div>
+      <div>Status: <span id="Status"></span></div>
+    </section>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
 </html>

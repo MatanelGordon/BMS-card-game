@@ -5,8 +5,11 @@ import { DeckBuilder } from './logic/DeckBuilder';
 import { GameSettingsUI } from './UI/GameSettingsUI';
 import { GameUI } from './UI/GameUI';
 import { DeckSource } from './UI/types';
+import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
 
-const game = new Game();
+const byValueComperator = new ValueFirstCardComperator();
+
+const game = new Game(byValueComperator);
 
 const gameSettings = new GameSettingsUI();
 const gameUI = new GameUI();
@@ -16,7 +19,7 @@ gameSettings.init(game);
 
 gameSettings.onSettingsApply((deckSource) => {
 	const deckBuilder = new DeckBuilder();
-		
+
 	switch (deckSource) {
 		case DeckSource.AUTO_GENERATED:
 			deckBuilder.addCardsValuesToAllTypes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).shuffle();
@@ -26,8 +29,7 @@ gameSettings.onSettingsApply((deckSource) => {
 			break;
 	}
 
-	console.log(deckBuilder.getDeck());
-    game.loadDeck(deckBuilder.getDeck());
+	game.loadDeck(deckBuilder.getDeck());
 	game.chooseCard(firstCard);
     game.startGame();
 	

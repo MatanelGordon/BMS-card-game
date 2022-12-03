@@ -1,14 +1,19 @@
 import { BetType } from './types/BetType';
 import { Card } from './Card';
-import { GameStatus, ICardPickStrategy } from './types';
+import { GameStatus, ICardComparator, ICardPickStrategy } from './types';
 
 export class Game {
+	protected readonly cardComperator: ICardComparator;
 	protected currentDeckIndex: number = 0;
 	protected currentScore: number = 0;
 	protected gameStatus: GameStatus = GameStatus.IDLE;
 
     chosenCard?: Card;
 	deck: Card[] = [];
+
+	constructor(cardComperator: ICardComparator) {
+		this.cardComperator = cardComperator;
+	}
 
 	get isOver() {
 		return this.gameStatus === GameStatus.LOSE || this.gameStatus === GameStatus.WIN;
@@ -62,8 +67,8 @@ export class Game {
 		if (!this.chosenCard) throw new Error('Cannot draw a card if no chosen card');
 
 		const nextCard = this.deck[this.currentDeckIndex++];
-		const compareResult = this.chosenCard.compare(nextCard);
-
+		const compareResult = this.cardComperator.compare(this.chosenCard, nextCard);
+		
 		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
 	}
 }

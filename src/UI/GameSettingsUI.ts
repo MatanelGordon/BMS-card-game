@@ -1,8 +1,6 @@
 import {
-	ResetButton,
-	SettingsContainer,
 	SettingsDeckSourceSelect,
-	SettingsStartButton,
+	SettingsStartButton
 } from './constants';
 import { DeckSource } from './types';
 import { toDeckSource } from './utils';
@@ -19,10 +17,6 @@ export class GameSettingsUI {
 			const value = SettingsDeckSourceSelect.value;
 			this._deckSource = toDeckSource(value);
 		});
-
-		ResetButton.addEventListener('click', () => {
-			this.show(true);
-		});
 	}
 
 	onSettingsApply(cb: (deckSource: DeckSource) => void) {
@@ -31,9 +25,5 @@ export class GameSettingsUI {
 
 			cb(this.deckSource as DeckSource);
 		});
-	}
-
-	show(mode: boolean) {
-		SettingsContainer.hidden = !mode;
 	}
 }

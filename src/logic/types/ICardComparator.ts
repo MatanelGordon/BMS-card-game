@@ -1,5 +1,3 @@
-import { Card } from "../Card";
-
-export interface ICardComparator{
-    compare(a: Card, b: Card): number;
+export interface ICardComparator<TCard> {
+	compare(a: TCard, b: TCard): number;
 }

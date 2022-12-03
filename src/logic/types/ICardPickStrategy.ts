@@ -1,5 +1,3 @@
-import { Card } from "../Card";
-
-export interface ICardPickStrategy{
-    pick(deck: Card[]): Card;
+export interface ICardPickStrategy<TCard> {
+	pick(deck: TCard[]): TCard;
 }

@@ -1,17 +1,16 @@
 import { BetType } from './types/BetType';
-import { Card } from './Card';
 import { GameStatus, ICardComparator, ICardPickStrategy } from './types';
 
-export class Game {
-	protected readonly cardComperator: ICardComparator;
+export class Game<TCard> {
+	protected readonly cardComperator: ICardComparator<TCard>;
 	protected currentDeckIndex: number = 0;
 	protected currentScore: number = 0;
 	protected gameStatus: GameStatus = GameStatus.IDLE;
 
-    chosenCard?: Card;
-	deck: Card[] = [];
+    chosenCard?: TCard;
+	deck: TCard[] = [];
 
-	constructor(cardComperator: ICardComparator) {
+	constructor(cardComperator: ICardComparator<TCard>) {
 		this.cardComperator = cardComperator;
 	}
 
@@ -32,7 +31,7 @@ export class Game {
         return this.chosenCard;
     }
 
-	loadDeck(deck: Card[]) {
+	loadDeck(deck: TCard[]) {
 		this.deck = deck;
 	}
 
@@ -42,7 +41,7 @@ export class Game {
 		this.currentScore = 0;
 	}
 
-	chooseCard(strategy: ICardPickStrategy) {
+	chooseCard(strategy: ICardPickStrategy<TCard>) {
 		this.chosenCard = strategy.pick(this.deck);
 		this.deck = this.deck.filter((card) => card !== this.chosenCard);
 	}
@@ -68,7 +67,7 @@ export class Game {
 
 		const nextCard = this.deck[this.currentDeckIndex++];
 		const compareResult = this.cardComperator.compare(this.chosenCard, nextCard);
-		
+
 		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
 	}
 }

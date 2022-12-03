@@ -15,7 +15,7 @@ export class GameSettingsUI {
 		return this._deckSource;
 	}
 
-	init(game: Game) {
+	init<TCard>(game: Game<TCard>) {
 		SettingsDeckSourceSelect.addEventListener('change', () => {
 			const value = SettingsDeckSourceSelect.value;
 			this._deckSource = toDeckSource(value);

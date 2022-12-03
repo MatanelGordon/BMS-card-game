@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 export class GameUI {
-	init(game: Game) {
+	init<TCard>(game: Game<TCard>) {
 		this.reset();
 		GameBetterCardBtn.addEventListener('click', () => {
 			game.bet(BetType.BETTER);
@@ -44,7 +44,7 @@ export class GameUI {
 		StatusLabel.textContent = `Your Card: ${card.toString()}`;
 	}
 
-	private update(game: Game) {
+	private update<TCard>(game: Game<TCard>) {
 		ScoreLabel.textContent = game.score.toString();
 		if (game.isOver) {
 			StatusLabel.textContent = `YOU ${game.status.toString()} `;

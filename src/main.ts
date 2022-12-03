@@ -1,7 +1,6 @@
 import CardsConfig from './deck-sample.json';
 import { Card } from './logic/Card';
 import { DeckBuilder } from './logic/DeckBuilder';
-import { FirstCardPickStrategy } from './logic/pickers';
 import { Game } from './logic/Game';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
 import './style.css';
@@ -30,7 +29,7 @@ gameSettings.onSettingsApply((deckSource: DeckSource, pickType: PickType) => {
 
 	const valueFirstComperator = new ValueFirstCardComperator();
 	const pickStrategyInstance = createPickStrategyByType(pickType);
-	
+
 	const game = new Game(valueFirstComperator);
 	const deck = deckBuilder.getDeck();
 

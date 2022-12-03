@@ -1,8 +1,8 @@
 import { BetType } from './types/BetType';
-import { Comparator, GameStatus, PickStrategy } from './types';
+import { IComparator, GameStatus, IPickStrategy } from './types';
 
 export class Game<TCard> {
-	protected readonly cardComperator: Comparator<TCard>;
+	protected readonly cardComperator: IComparator<TCard>;
 	protected currentDeckIndex: number = 0;
 	protected currentScore: number = 0;
 	protected gameStatus: GameStatus = GameStatus.IDLE;
@@ -10,7 +10,7 @@ export class Game<TCard> {
     chosenCard?: TCard;
 	deck: TCard[] = [];
 
-	constructor(cardComperator: Comparator<TCard>) {
+	constructor(cardComperator: IComparator<TCard>) {
 		this.cardComperator = cardComperator;
 	}
 
@@ -31,16 +31,21 @@ export class Game<TCard> {
         return this.chosenCard;
     }
 
-	startGame(deck: TCard[], pickStrategy: PickStrategy<TCard>) {
-		this.deck = deck;
+	reset(){
 		this.currentDeckIndex = 0;
-		this.gameStatus = GameStatus.PLAYING;
 		this.currentScore = 0;
+		this.gameStatus = GameStatus.IDLE;
+	}
+
+	startGame(deck: TCard[], pickStrategy: IPickStrategy<TCard>) {
+		this.reset();
+		this.deck = deck;
+		this.gameStatus = GameStatus.PLAYING;
 		this.chooseCard(pickStrategy);
 	}
 
-	protected chooseCard(pickFn: PickStrategy<TCard>) {
-		this.chosenCard = pickFn(this.deck);
+	protected chooseCard(pickStrategy: IPickStrategy<TCard>) {
+		this.chosenCard = pickStrategy.pick(this.deck);
 		this.deck = this.deck.filter((card) => card !== this.chosenCard);
 	}
 
@@ -65,8 +70,8 @@ export class Game<TCard> {
 		if (this.deck.length === 0) throw new Error('Cannot draw a card if deck is empty');
 
 		const nextCard = this.deck[this.currentDeckIndex++];
-		const compareResult = this.cardComperator(this.chosenCard, nextCard);
-
+		const compareResult = this.cardComperator.compare(this.chosenCard, nextCard);
+		
 		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
 	}
 }

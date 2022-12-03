@@ -26,6 +26,7 @@ export class GameUI<TCard> {
 
 		ResetButton.addEventListener('click', () => {
 			this.show(false);
+            this.reset();
 		});
 	}
 
@@ -45,6 +46,7 @@ export class GameUI<TCard> {
 	}
 
 	reset() {
+        this.game.reset();
 		this.show(false);
 		ScoreLabel.textContent = '0';
 		StatusLabel.textContent = '';

@@ -1,4 +1,8 @@
 import { Card } from './Card';
-import { PickStrategy } from './types';
+import { IPickStrategy } from './types';
 
-export const pickFirstCard: PickStrategy<Card> = (deck: Card[]): Card => deck[0];
+export class FirstCardPickStrategy implements IPickStrategy<Card> {
+	pick(deck: Card[]): Card {
+		return deck[0];
+	}
+}

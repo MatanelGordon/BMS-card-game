@@ -70,7 +70,7 @@ export class Game<TCard> {
 		if (this.deck.length === 0) throw new Error('Cannot draw a card if deck is empty');
 
 		const nextCard = this.deck[this.currentDeckIndex++];
-		const compareResult = this.cardComperator.compare(this.chosenCard, nextCard);
+		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
 		
 		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
 	}

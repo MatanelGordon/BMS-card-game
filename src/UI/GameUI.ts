@@ -2,7 +2,6 @@ import { GameStatus } from '../logic/types';
 import {
 	CurrentCardLabel,
 	GameBetterCardBtn,
-	GameResetBtn,
 	GameWorseCardBtn,
 	ScoreLabel,
 	StatusLabel,
@@ -16,13 +15,12 @@ export class GameUI {
 	private _gameSettings: GameSettingsUI = new GameSettingsUI();
 	private _initialized: boolean = false;
 
-	get gameStatus(){
+	get gameStatus() {
 		return this._gameStatus;
 	}
 
-	init() {
-
-		if(this._initialized) {
+	__init__() {
+		if (this._initialized) {
 			throw new Error(`You Can't Use gameUi.init() more than once`);
 		}
 
@@ -69,25 +67,19 @@ export class GameUI {
 		StatusLabel.textContent = STATUS_MSG[status];
 		this.disableGame(status !== GameStatus.PLAYING);
 
-		if(status === GameStatus.WIN){
-			StatusLabel.style.color = '#3f3';
-		} 
-		else if(status === GameStatus.LOSE){
+		if (status === GameStatus.WIN) {
+			StatusLabel.style.color = '#3d3';
+		} else if (status === GameStatus.LOSE) {
 			StatusLabel.style.color = '#f22';
-		}
-		else{
+		} else {
 			StatusLabel.style.color = '#000';
 		}
 	}
 
 	reset() {
+		this.setStatus(GameStatus.IDLE);
 		this.setScore(0);
 		this.setCurrentCard('', 'black');
-	}
-
-	resetUI(){
-		this.setStatus(GameStatus.IDLE);
-		this.reset();
 	}
 
 	setCurrentCard(str: string, color?: string) {
@@ -101,4 +93,7 @@ export class GameUI {
 	}
 }
 
-export default new GameUI();
+const gameUI = new GameUI();
+gameUI.__init__();
+
+export default gameUI;

@@ -1,70 +1,104 @@
-import { Game } from '../logic/Game';
-import { BetType, IPickStrategy } from '../logic/types';
+import { GameStatus } from '../logic/types';
 import {
+	CurrentCardLabel,
 	GameBetterCardBtn,
+	GameResetBtn,
 	GameWorseCardBtn,
 	ScoreLabel,
-	StatusContainer,
-	StatusLabel
+	StatusLabel,
+	STATUS_MSG,
 } from './constants';
+import { GameSettingsUI, SettingsApplyCallback } from './GameSettingsUI';
 
-export class GameUI<TCard> {
-	protected _game?: Game<TCard>;
+type BetButtonCallback = () => void;
+export class GameUI {
+	private _gameStatus: GameStatus = GameStatus.IDLE;
+	private _gameSettings: GameSettingsUI = new GameSettingsUI();
+	private _initialized: boolean = false;
 
-	get game() {
-		if (!this._game) throw new Error('Cannot access game without initialization');
-		return this._game;
-	}
-
-	loadGame(game: Game<TCard>) {
-		this._game = game;
-		this.reset();
+	get gameStatus(){
+		return this._gameStatus;
 	}
 
 	init() {
-		GameBetterCardBtn.addEventListener('click', () => {
-			this.bet(BetType.BETTER);
-		});
 
-		GameWorseCardBtn.addEventListener('click', () => {
-			this.bet(BetType.WORSE);
-		});
-	}
-
-	startGame(deck: TCard[], pickStrategy: IPickStrategy<TCard>) {
-		this.game.startGame(deck, pickStrategy);
-		this.displayCard(this.game.card);
-	}
-
-	bet(betType: BetType) {
-		try {
-			this.game.bet(betType);
-			this.update(this.game);
-		} catch (e) {
-			console.error(e);
+		if(this._initialized) {
+			throw new Error(`You Can't Use gameUi.init() more than once`);
 		}
+
+		this._initialized = true;
+		this.reset();
+		this._gameSettings.init();
+
+		this.onSettingsApply(() => {
+			this.setStatus(GameStatus.PLAYING);
+		});
 	}
 
-	show(mode: boolean) {
-		GameBetterCardBtn.hidden = !mode;
-		GameWorseCardBtn.hidden = !mode;
-		StatusContainer.hidden = !mode;
+	onSettingsApply(func: SettingsApplyCallback): void {
+		this._gameSettings.onSettingsApply(func);
+	}
+
+	onBetterBetClick(func: BetButtonCallback): void {
+		GameBetterCardBtn.addEventListener('click', () => {
+			if (this._gameStatus === GameStatus.PLAYING) {
+				func();
+			}
+		});
+	}
+
+	onWorseBetClick(func: BetButtonCallback): void {
+		GameWorseCardBtn.addEventListener('click', () => {
+			if (this._gameStatus === GameStatus.PLAYING) {
+				func();
+			}
+		});
+	}
+
+	onBetButtonClick(func: BetButtonCallback): void {
+		this.onBetterBetClick(func);
+		this.onWorseBetClick(func);
+	}
+
+	setScore(value: number) {
+		ScoreLabel.textContent = value.toString();
+	}
+
+	setStatus(status: GameStatus) {
+		this._gameStatus = status;
+		StatusLabel.textContent = STATUS_MSG[status];
+		this.disableGame(status !== GameStatus.PLAYING);
+
+		if(status === GameStatus.WIN){
+			StatusLabel.style.color = '#3f3';
+		} 
+		else if(status === GameStatus.LOSE){
+			StatusLabel.style.color = '#f22';
+		}
+		else{
+			StatusLabel.style.color = '#000';
+		}
 	}
 
 	reset() {
-		this.game.reset();
-		ScoreLabel.textContent = '0';
-		StatusLabel.textContent = '';
+		this.setScore(0);
+		this.setCurrentCard('', 'black');
 	}
 
-	private displayCard(card: TCard) {
-		StatusLabel.textContent = `Your Card: ${card}`;
+	resetUI(){
+		this.setStatus(GameStatus.IDLE);
+		this.reset();
 	}
 
-	private update(game: Game<TCard>) {
-		ScoreLabel.textContent = game.score.toString();
-		if (game.isOver) {
-			StatusLabel.textContent = `YOU ${game.status.toString()} `;
-		}
+	setCurrentCard(str: string, color?: string) {
+		CurrentCardLabel.textContent = str;
+		CurrentCardLabel.style.color = color ?? 'black';
+	}
+
+	private disableGame(disable: boolean) {
+		GameBetterCardBtn.disabled = disable;
+		GameWorseCardBtn.disabled = disable;
 	}
 }
+
+export default new GameUI();

@@ -1,39 +1,59 @@
-import CardsConfig from './deck-sample.json';
+import './style.css';
+import { DeckSource, gameUI, PickType } from "@ui";
+import deckFile from './deck-sample.json';
+import { FirstCardPickStrategy, RandomCardPickStrategy } from './logic/pickers';
 import { Card } from './logic/Card';
-import { DeckBuilder } from './logic/DeckBuilder';
+import { BetType, GameStatus, IPickStrategy } from './logic/types';
 import { Game } from './logic/Game';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
-import './style.css';
-import { GameSettingsUI } from './UI/GameSettingsUI';
-import { GameUI } from './UI/GameUI';
-import { DeckSource, PickType } from './UI/types';
-import { createPickStrategyByType } from './UI/utils';
+import { DeckBuilder } from './logic/DeckBuilder';
 
-const gameSettings = new GameSettingsUI();
-const gameUI = new GameUI<Card>();
+export const createPickStrategyByType = (pickStrategy: PickType): IPickStrategy<Card> => {
+	switch (pickStrategy) {
+		case PickType.RANDOM:
+			return new RandomCardPickStrategy<Card>();
 
-gameSettings.init();
+		case PickType.FIRST:
+		default:
+			return new FirstCardPickStrategy();
+	}
+};
+
+
+// Don't touch this, and it must be on the top of the file.
 gameUI.init();
 
-gameSettings.onSettingsApply((deckSource: DeckSource, pickType: PickType) => {
-	const deckBuilder = new DeckBuilder();
+const comperator = new ValueFirstCardComperator();
+let game = new Game(comperator);
 
-	switch (deckSource) {
-		case DeckSource.AUTO_GENERATED:
-			deckBuilder.addCardsValuesToAllTypes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).shuffle();
-			break;
-		case DeckSource.FILE:
-			deckBuilder.fromJson(CardsConfig);
-			break;
-	}
+gameUI.onSettingsApply((deckSource, pickType) => {
+    const deckBuilder = new DeckBuilder();
 
-	const valueFirstComperator = new ValueFirstCardComperator();
-	const pickStrategyInstance = createPickStrategyByType(pickType);
+    switch(deckSource){
+        case DeckSource.FILE:
+            deckBuilder.fromJson(deckFile);
+            break;
+        case DeckSource.AUTO_GENERATED:
+            deckBuilder.addCardsValuesToAllTypes([1,2,3,4,5,6,7,8,9,10]).shuffle();
+            break;
+    }
 
-	const game = new Game(valueFirstComperator);
-	const deck = deckBuilder.getDeck();
+    const pickStrategy = createPickStrategyByType(pickType);
 
-	gameUI.loadGame(game);
-	gameUI.startGame(deck, pickStrategyInstance);
-	gameUI.show(true);
+    game.startGame(deckBuilder.getDeck(), pickStrategy);
+    gameUI.reset();
+    gameUI.setCurrentCard(game.card.toString());
 });
+
+gameUI.onBetterBetClick(() => {
+    game.bet(BetType.BETTER);
+})
+
+gameUI.onWorseBetClick(() => {
+    game.bet(BetType.WORSE);
+})
+
+gameUI.onBetButtonClick(() => {
+    gameUI.setScore(game.score);
+    gameUI.setStatus(game.status);
+})

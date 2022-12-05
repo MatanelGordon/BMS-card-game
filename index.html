@@ -7,28 +7,45 @@
 		<title>Vite App</title>
 	</head>
 	<body>
-		<section id="GameSettings">
-			<label>Choose your deck</label>
-			<select id="DeckSelect">
-				<option value="" selected>Select Deck Source</option>
-				<option value="FILE">Take from configuration</option>
-				<option value="AUTO_GENERATED">Create a new deck</option>
-			</select>
-			<select id="PickType">
-				<option value="" selected>Select Pick Strategy</option>
-				<option value="FIRST">Take First Card</option>
-				<option value="RANDOM">Take a Random Card</option>
-			</select>
-			<button id="StartButton">Start</button>
-		</section>
-		<section id="Game">
-			<button id="BetterCardButton">Next card will be worse</button>
-			<button id="WorseCardButton">Next card will be better</button>
-		</section>
-		<section id="StatusContainer">
-      <div>Score: <span id="Score"></span></div>
-      <div>Status: <span id="Status"></span></div>
-    </section>
+		<main class="main-content">
+			<button class="game-button blurry-hover reset-button" id="Reset">reset</button>
+			<section class="game-container">
+				<label class="label game-label">Next Card Will be:</label>
+				<button class="game-button button-l blurry-hover better-bet" id="BetterCardButton">
+					Better
+				</button>
+				<button class="game-button button-r blurry-hover worse-bet" id="WorseCardButton">
+					Worse
+				</button>
+			</section>
+			<div class="game-status" id="GameStatusContainer">
+				<div>Score: <label id="Score"></label></div>
+				<div>Status: <label id="Status"></label></div>
+				<div class="current-card">Current Card: <label id="CurrentCard"></label></div>
+			</div>
+		</main>
+
+		<dialog class="game-settings" id="GameSettings">
+			<div class="field">
+				<label for="DeckSelect">Deck Source</label>
+				<select class="game-settings__select" id="DeckSelect">
+					<option value="" selected>Select Deck Source</option>
+					<option value="FILE">Take from configuration</option>
+					<option value="AUTO_GENERATED">Create a new deck</option>
+				</select>
+			</div>
+			<div class="field">
+				<label for="PickType">Pick Strategy</label>
+				<select class="game-settings__select" id="PickType">
+					<option value="" selected>Select Pick Strategy</option>
+					<option value="FIRST">Take First Card</option>
+					<option value="RANDOM">Take a Random Card</option>
+				</select>
+			</div>
+
+			<button class="game-settings__start-button blurry-hover" id="StartButton">Start</button>
+		</dialog>
+
 		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

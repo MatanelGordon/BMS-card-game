@@ -10,16 +10,23 @@ import {
 import { GameSettingsUI, SettingsApplyCallback } from './GameSettingsUI';
 
 type BetButtonCallback = () => void;
+
+// TODO: Add jsdocs
+// TODO: Add exception Handling
 export class GameUI {
 	private _gameStatus: GameStatus = GameStatus.IDLE;
 	private _gameSettings: GameSettingsUI = new GameSettingsUI();
 	private _initialized: boolean = false;
 
+	constructor(){
+		this.__init__();
+	}
+
 	get gameStatus() {
 		return this._gameStatus;
 	}
 
-	__init__() {
+	private __init__() {
 		if (this._initialized) {
 			throw new Error(`You Can't Use gameUi.init() more than once`);
 		}
@@ -28,12 +35,18 @@ export class GameUI {
 		this.reset();
 		this._gameSettings.init();
 
-		this.onSettingsApply(() => {
+		this.onGameStart(() => {
+			this.reset();
 			this.setStatus(GameStatus.PLAYING);
 		});
 	}
 
-	onSettingsApply(func: SettingsApplyCallback): void {
+	private disableGame(disable: boolean) {
+		GameBetterCardBtn.disabled = disable;
+		GameWorseCardBtn.disabled = disable;
+	}
+
+	onGameStart(func: SettingsApplyCallback): void {
 		this._gameSettings.onSettingsApply(func);
 	}
 
@@ -53,6 +66,7 @@ export class GameUI {
 		});
 	}
 
+	// TODO: Add param which button pressed
 	onBetButtonClick(func: BetButtonCallback): void {
 		this.onBetterBetClick(func);
 		this.onWorseBetClick(func);
@@ -86,14 +100,8 @@ export class GameUI {
 		CurrentCardLabel.textContent = str;
 		CurrentCardLabel.style.color = color ?? 'black';
 	}
-
-	private disableGame(disable: boolean) {
-		GameBetterCardBtn.disabled = disable;
-		GameWorseCardBtn.disabled = disable;
-	}
 }
 
 const gameUI = new GameUI();
-gameUI.__init__();
 
 export default gameUI;

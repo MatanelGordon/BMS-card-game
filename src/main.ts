@@ -22,7 +22,7 @@ export const createPickStrategyByType = (pickStrategy: PickType): IPickStrategy<
 const comperator = new ValueFirstCardComperator();
 let game = new Game(comperator);
 
-gameUI.onSettingsApply((deckSource, pickType) => {
+gameUI.onGameStart((deckSource, pickType) => {
 	const deckBuilder = new DeckBuilder();
 
 	switch (deckSource) {
@@ -37,8 +37,6 @@ gameUI.onSettingsApply((deckSource, pickType) => {
 	const pickStrategy = createPickStrategyByType(pickType);
 
 	game.startGame(deckBuilder.getDeck(), pickStrategy);
-	gameUI.reset();
-	gameUI.setStatus(GameStatus.PLAYING);
 	gameUI.setCurrentCard(game.card.toString());
 });
 

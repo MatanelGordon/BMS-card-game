@@ -4,7 +4,7 @@ import { Card } from './logic/Card';
 import { DeckBuilder } from './logic/DeckBuilder';
 import { Game } from './logic/Game';
 import { FirstCardPickStrategy, RandomCardPickStrategy } from './logic/pickers';
-import { BetType, GameStatus, IPickStrategy } from './logic/types';
+import { BetType, IPickStrategy } from './logic/types';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
 import './style.css';
 

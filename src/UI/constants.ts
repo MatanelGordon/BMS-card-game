@@ -1,4 +1,4 @@
-import { GameStatus } from "../logic/types";
+import { GameStatus } from "./types";
 
 export const SettingsContainer = document.querySelector<HTMLDialogElement>('#GameSettings')!;
 export const SettingsDeckSourceSelect = document.querySelector<HTMLSelectElement>('#DeckSelect')!;

@@ -1,4 +1,4 @@
-import { GameStatus } from '../logic/types';
+import { GameStatus } from './types';
 import {
 	CurrentCardLabel,
 	GameBetterCardBtn,
@@ -14,31 +14,32 @@ type BetButtonCallback = () => void;
 // TODO: Add jsdocs
 // TODO: Add exception Handling
 export class GameUI {
-	private _gameStatus: GameStatus = GameStatus.IDLE;
-	private _gameSettings: GameSettingsUI = new GameSettingsUI();
-	private _initialized: boolean = false;
+	#gameStatus: GameStatus = GameStatus.IDLE;
+	#gameSettings: GameSettingsUI = new GameSettingsUI();
+	#initialized: boolean = false;
 
 	constructor(){
 		this.__init__();
 	}
 
 	get gameStatus() {
-		return this._gameStatus;
+		return this.#gameStatus;
 	}
 
 	private __init__() {
-		if (this._initialized) {
+		if (this.#initialized) {
 			throw new Error(`You Can't Use gameUi.init() more than once`);
 		}
 
-		this._initialized = true;
+		this.#initialized = true;
 		this.reset();
-		this._gameSettings.init();
+		this.#gameSettings.init();
 
 		this.onGameStart(() => {
 			this.reset();
 			this.setStatus(GameStatus.PLAYING);
 		});
+		this.setStatus(GameStatus.IDLE);
 	}
 
 	private disableGame(disable: boolean) {
@@ -47,12 +48,12 @@ export class GameUI {
 	}
 
 	onGameStart(func: SettingsApplyCallback): void {
-		this._gameSettings.onSettingsApply(func);
+		this.#gameSettings.onSettingsApply(func);
 	}
 
 	onBetterBetClick(func: BetButtonCallback): void {
 		GameBetterCardBtn.addEventListener('click', () => {
-			if (this._gameStatus === GameStatus.PLAYING) {
+			if (this.#gameStatus === GameStatus.PLAYING) {
 				func();
 			}
 		});
@@ -60,7 +61,7 @@ export class GameUI {
 
 	onWorseBetClick(func: BetButtonCallback): void {
 		GameWorseCardBtn.addEventListener('click', () => {
-			if (this._gameStatus === GameStatus.PLAYING) {
+			if (this.#gameStatus === GameStatus.PLAYING) {
 				func();
 			}
 		});
@@ -77,9 +78,10 @@ export class GameUI {
 	}
 
 	setStatus(status: GameStatus) {
-		this._gameStatus = status;
+		this.#gameStatus = status;
 		StatusLabel.textContent = STATUS_MSG[status];
 		this.disableGame(status !== GameStatus.PLAYING);
+		this.#gameSettings.show(status === GameStatus.IDLE);
 
 		if (status === GameStatus.WIN) {
 			StatusLabel.style.color = '#3d3';

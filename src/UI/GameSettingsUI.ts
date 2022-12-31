@@ -10,19 +10,19 @@ import { toDeckSource } from './utils';
 
 export type SettingsApplyCallback = (deckSource: DeckSource, pickType: PickType) => void;
 export class GameSettingsUI {
-	protected _deckSource?: DeckSource;
-	protected _pickType?: PickType;
+	#deckSource?: DeckSource;
+	#pickType?: PickType;
 
 	init() {
 		SettingsDeckSourceSelect.addEventListener('change', () => {
 			const value = SettingsDeckSourceSelect.value;
-			this._deckSource = toDeckSource(value);
+			this.#deckSource = toDeckSource(value);
 			this.updateStartButton();
 		});
 
 		SettingsPickStrategySelect.addEventListener('change', () => {
 			const value = SettingsPickStrategySelect.value;
-			this._pickType = value as PickType;
+			this.#pickType = value as PickType;
 			this.updateStartButton();
 		});
 
@@ -39,12 +39,10 @@ export class GameSettingsUI {
 	}
 
 	show(mode: boolean) {
-		SettingsContainer.hidden = !mode;
+		if(mode === SettingsContainer.hasAttribute('open')) return;
 		if (mode) {
-			SettingsContainer.style.display = 'grid';
 			SettingsContainer.showModal();
 		} else {
-			SettingsContainer.style.display = 'none';
 			SettingsContainer.close();
 		}
 	}
@@ -53,12 +51,12 @@ export class GameSettingsUI {
 		SettingsStartButton.addEventListener('click', () => {
 			if (this.hasEmptyFields()) return;
 
-			cb(this._deckSource as DeckSource, this._pickType as PickType);
+			cb(this.#deckSource as DeckSource, this.#pickType as PickType);
 		});
 	}
 
 	protected hasEmptyFields() {
-		return !this._deckSource || !this._pickType;
+		return !this.#deckSource || !this.#pickType;
 	}
 
 	private updateStartButton() {

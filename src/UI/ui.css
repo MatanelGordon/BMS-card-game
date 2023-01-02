@@ -113,12 +113,12 @@ button:not(:disabled) {
 	font-size: 2em;
 }
 
-.game-container .better-bet {
-	--clr: #9fcc2e;
+.game-container .higher-bet {
+	--clr: var(--win-color);
 }
 
-.game-container .worse-bet {
-	--clr: #c61316;
+.game-container .lower-bet {
+	--clr: var(--lose-color);
 	color: white;
 }
 

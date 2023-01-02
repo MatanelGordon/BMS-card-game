@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" href="spades-light.ico" media="(prefers-color-scheme: dark)" />
-		<link rel="icon" href="spades.ico" media="(prefers-color-scheme: light)">
+		<link rel="icon" href="spades.ico" media="(prefers-color-scheme: light)" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Card Game</title>
 	</head>
@@ -12,15 +12,15 @@
 			<button class="game-button blurry-hover reset-button" id="Reset">reset</button>
 			<section class="game-container">
 				<label class="label game-label">Next Card Will be:</label>
-				<button class="game-button button-l blurry-hover better-bet" id="BetterCardButton">
+				<button class="game-button button-l blurry-hover higher-bet" id="BetterCardButton">
 					Higher
 				</button>
-				<button class="game-button button-r blurry-hover worse-bet" id="WorseCardButton">
+				<button class="game-button button-r blurry-hover lower-bet" id="WorseCardButton">
 					Lower
 				</button>
 			</section>
 			<div class="game-status" id="GameStatusContainer">
-				<div>Score: <label id="Score"></label></div>
+				<div>Score: <label id="Score">0</label></div>
 				<div>Status: <label id="Status"></label></div>
 				<div class="current-card">Current Card: <label id="CurrentCard"></label></div>
 			</div>

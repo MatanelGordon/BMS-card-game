@@ -2,20 +2,21 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<link rel="icon" href="spades-light.ico" media="(prefers-color-scheme: dark)" />
+		<link rel="icon" href="spades.ico" media="(prefers-color-scheme: light)">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite App</title>
+		<title>Card Game</title>
 	</head>
 	<body>
-		<main class="main-content">
+		<main class="main-content" id="MainContent">
 			<button class="game-button blurry-hover reset-button" id="Reset">reset</button>
 			<section class="game-container">
 				<label class="label game-label">Next Card Will be:</label>
 				<button class="game-button button-l blurry-hover better-bet" id="BetterCardButton">
-					Better
+					Higher
 				</button>
 				<button class="game-button button-r blurry-hover worse-bet" id="WorseCardButton">
-					Worse
+					Lower
 				</button>
 			</section>
 			<div class="game-status" id="GameStatusContainer">
@@ -46,6 +47,6 @@
 			<button class="game-settings__start-button blurry-hover" id="StartButton">Start</button>
 		</dialog>
 
-		<script type="module" src="/src/main.ts"></script>
+		<script type="module" src="/src/index.ts"></script>
 	</body>
 </html>

@@ -14,3 +14,8 @@ export enum GameStatus{
     LOSE = 'LOSE',
     PLAYING = 'PLAYING',
 }
+
+export enum BetType {
+    HIGHER = 'HIGHER',
+    LOWER = 'LOWER',
+}

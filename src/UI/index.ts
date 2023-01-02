@@ -1,3 +1,5 @@
 import './ui.css';
+import gameUI from './GameUI';
 export * from './types';
-export {default as gameUI} from './GameUI';
+export {gameUI};
+export default gameUI;

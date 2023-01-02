@@ -1,4 +1,6 @@
-import { GameStatus } from "./types";
+import { BetType, GameStatus } from "./types";
+
+export const MainContent = document.querySelector<HTMLDivElement>('#MainContent')!;
 
 export const SettingsContainer = document.querySelector<HTMLDialogElement>('#GameSettings')!;
 export const SettingsDeckSourceSelect = document.querySelector<HTMLSelectElement>('#DeckSelect')!;
@@ -21,3 +23,8 @@ export const STATUS_MSG: Record<GameStatus, string> = {
     [GameStatus.WIN]: "You Won!",
     [GameStatus.LOSE]: "You Lost"
 }
+
+export const GAME_BUTTONS: Record<BetType, HTMLButtonElement> = {
+    [BetType.LOWER]: GameWorseCardBtn,
+    [BetType.HIGHER]: GameBetterCardBtn
+};

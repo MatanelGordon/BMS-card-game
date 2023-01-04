@@ -19,6 +19,7 @@ export type GeneralBetButtonCallback = (param: {
 export class GameUI {
 	#gameStatus: GameStatus = GameStatus.IDLE;
 	#gameSettings: GameSettingsUI = new GameSettingsUI();
+	#isAdvancedModeCalled: boolean = false;
 
 	/**
 	 * Allows to manage the UI using simple functions.
@@ -27,6 +28,30 @@ export class GameUI {
 		this.reset();
 		this.#gameSettings.init();
 
+		this.#gameSettings.lock(true);
+		this.#setStatus(GameStatus.PLAYING);
+	}
+
+	/**
+	 * Transform your game to advanced mode including a popup window that will allow further customization.
+	 * 
+	 * `NOTE: This function can only be called once`
+	 * 
+	 * @example To use this function:
+	 * ```javascript
+	 * // right below the imports in main.ts file
+	 * gameUI.advancedMode();
+	 * ```
+	 */
+	advancedMode(){
+		if(this.#isAdvancedModeCalled){
+			throw new Error('Cannot call AdvancedMode more than once');
+		}
+
+		this.#isAdvancedModeCalled = true;
+
+		this.#gameSettings.lock(false);
+		this.#setStatus(GameStatus.IDLE);
 		this.onGameStart(() => {
 			this.reset();
 			this.#setStatus(GameStatus.PLAYING);
@@ -230,6 +255,32 @@ export class GameUI {
 	setCurrentCard(str: string, color?: string) {
 		CurrentCardLabel.textContent = str;
 		CurrentCardLabel.style.color = color ?? 'black';
+	}
+
+	#setButtonColor(button:HTMLButtonElement, bgColor?:string, textColor?:string, borderColor?:string){
+		if(bgColor){
+			button.style.background = bgColor;
+		}
+
+		if(textColor){
+			button.style.color = textColor;
+		}
+
+		if(borderColor){
+			button.style.borderWidth = '1px';
+			button.style.borderStyle = 'solid';
+			button.style.borderColor = borderColor;
+		}
+	}
+
+	setHigherBetButtonColor(bgColor:string, textColor?:string, borderColor?:string){
+		this.#setButtonColor(GameBetterCardBtn, bgColor, textColor, borderColor);
+		return this;
+	}
+
+	setLowerBetButtonColor(bgColor:string, textColor?:string, borderColor?:string){
+		this.#setButtonColor(GameWorseCardBtn, bgColor, textColor, borderColor);
+		return this;
 	}
 }
 

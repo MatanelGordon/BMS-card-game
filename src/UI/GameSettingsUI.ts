@@ -10,6 +10,7 @@ import { toDeckSource } from './utils';
 
 export type SettingsApplyCallback = (deckSource: DeckSource, pickType: PickType) => void;
 export class GameSettingsUI {
+	private static LOCKED_ATTR = "data-locked";
 	#deckSource?: DeckSource;
 	#pickType?: PickType;
 
@@ -39,7 +40,14 @@ export class GameSettingsUI {
 	}
 
 	show(mode: boolean) {
+		
+		if(this.isLocked){
+			SettingsContainer.close();
+			return;
+		}
+
 		if(mode === SettingsContainer.hasAttribute('open')) return;
+
 		if (mode) {
 			SettingsContainer.showModal();
 		} else {
@@ -53,6 +61,20 @@ export class GameSettingsUI {
 
 			cb(this.#deckSource as DeckSource, this.#pickType as PickType);
 		});
+	}
+
+	lock(mode: boolean) {
+		if(mode){
+			SettingsContainer.setAttribute(GameSettingsUI.LOCKED_ATTR, "true");
+			this.show(false);
+		}
+		else{
+			SettingsContainer.removeAttribute(GameSettingsUI.LOCKED_ATTR);
+		}		
+	}
+
+	private get isLocked(){
+		return SettingsContainer.hasAttribute(GameSettingsUI.LOCKED_ATTR);
 	}
 
 	protected hasEmptyFields() {

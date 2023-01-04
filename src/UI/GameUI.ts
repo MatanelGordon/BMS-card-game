@@ -87,6 +87,27 @@ export class GameUI {
 		}
 	}
 
+	#setButtonColor(
+		button: HTMLButtonElement,
+		bgColor?: string,
+		textColor?: string,
+		borderColor?: string
+	) {
+		if (bgColor) {
+			button.style.background = bgColor;
+		}
+
+		if (textColor) {
+			button.style.color = textColor;
+		}
+
+		if (borderColor) {
+			button.style.borderWidth = '1px';
+			button.style.borderStyle = 'solid';
+			button.style.borderColor = borderColor;
+		}
+	}
+
 	/**
 	 * Returns the current game status
 	 * @returns {GameStatus} The Current Game Status
@@ -244,7 +265,7 @@ export class GameUI {
 	}
 
 	/**
-	 *
+	 * Sets the Current Card text
 	 * @param str {string} The content to display next to "Current Card"
 	 * @param color {string} The content's color.
 	 * @example
@@ -257,37 +278,76 @@ export class GameUI {
 		CurrentCardLabel.style.color = color ?? 'black';
 	}
 
-	#setButtonColor(
-		button: HTMLButtonElement,
-		bgColor?: string,
-		textColor?: string,
-		borderColor?: string
-	) {
-		if (bgColor) {
-			button.style.background = bgColor;
-		}
-
-		if (textColor) {
-			button.style.color = textColor;
-		}
-
-		if (borderColor) {
-			button.style.borderWidth = '1px';
-			button.style.borderStyle = 'solid';
-			button.style.borderColor = borderColor;
-		}
-	}
-
+	/**
+	 * Customizes the "Higher" button
+	 * @param bgColor - Background color
+	 * @param textColor - Text color
+	 * @param borderColor - Border color
+	 * @returns the same gameUI reference to allow method-chaining
+	 * @example 
+	 * ```javascript
+	 * gameUI.setHigherBetButtonColor("greenlime");
+	 * ```
+	 * @example 
+	 * And using method-chaining
+	 * ```javascript
+	 * gameUI
+	 * 	 .setHigherBetButtonColor("greenlime")
+	 * 	 .setLowerBetButtonColor("crimson")
+	 * 	 .setButtonsShape(ButtonShape.RECT);
+	 * ```
+	 */
 	setHigherBetButtonColor(bgColor: string, textColor?: string, borderColor?: string) {
 		this.#setButtonColor(GameBetterCardBtn, bgColor, textColor, borderColor);
 		return this;
 	}
 
+	/**
+	 * Customizes the "Lower" button
+	 * @param bgColor - Background color
+	 * @param textColor - Text color
+	 * @param borderColor - Border color
+	 * @returns the same gameUI reference to allow method-chaining
+	 * @example 
+	 * ```javascript
+	 * gameUI.setLowerBetButtonColor("greenlime");
+	 * ```
+	 * @example 
+	 * And using method-chaining
+	 * ```javascript
+	 * gameUI
+	 * 	 .setHigherBetButtonColor("greenlime")
+	 * 	 .setLowerBetButtonColor("crimson")
+	 * 	 .setButtonsShape(ButtonShape.RECT);
+	 * ```
+	 */
 	setLowerBetButtonColor(bgColor: string, textColor?: string, borderColor?: string) {
 		this.#setButtonColor(GameWorseCardBtn, bgColor, textColor, borderColor);
 		return this;
 	}
 
+	/**
+	 * Customizes the buttons' shape
+	 * @param shape {ButtonShape} the wanted shape
+	 * @returns the same gameUI reference to allow method-chaining
+	 * @example 
+	 * ```javascript
+	 * gameUI.setButtonsShape(ButtonShape.RECT);
+	 * ```
+	 * 
+	 * @example For Circular Buttons
+	 * ```javascript
+	 * gameUI.setButtonsShape(ButtonShape.CIRCLE);
+	 * ```
+	 * @example 
+	 * And using method-chaining
+	 * ```javascript
+	 * gameUI
+	 * 	 .setHigherBetButtonColor("greenlime")
+	 * 	 .setLowerBetButtonColor("crimson")
+	 * 	 .setButtonsShape(ButtonShape.RECT);
+	 * ```
+	 */
 	setButtonsShape(shape: ButtonShape) {
 		const buttons = Object.values(GAME_BUTTONS);
 		buttons.forEach((btn) => {

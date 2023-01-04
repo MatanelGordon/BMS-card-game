@@ -19,3 +19,8 @@ export enum BetType {
     HIGHER = 'HIGHER',
     LOWER = 'LOWER',
 }
+
+export enum ButtonShape{
+    CIRCLE = 'CIRCLE',
+    RECT = 'RECT',
+}

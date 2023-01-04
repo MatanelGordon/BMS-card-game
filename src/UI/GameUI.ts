@@ -1,4 +1,4 @@
-import { BetType, GameStatus } from './types';
+import { BetType, ButtonShape, GameStatus } from './types';
 import {
 	CurrentCardLabel,
 	GameBetterCardBtn,
@@ -34,17 +34,17 @@ export class GameUI {
 
 	/**
 	 * Transform your game to advanced mode including a popup window that will allow further customization.
-	 * 
+	 *
 	 * `NOTE: This function can only be called once`
-	 * 
+	 *
 	 * @example To use this function:
 	 * ```javascript
 	 * // right below the imports in main.ts file
 	 * gameUI.advancedMode();
 	 * ```
 	 */
-	advancedMode(){
-		if(this.#isAdvancedModeCalled){
+	advancedMode() {
+		if (this.#isAdvancedModeCalled) {
 			throw new Error('Cannot call AdvancedMode more than once');
 		}
 
@@ -181,7 +181,7 @@ export class GameUI {
 	 *   		console.log('Higher bet clicked');
 	 *  	}
 	 * });
-	 * 
+	 *
 	 * ```
 	 */
 	onBetClick(func: GeneralBetButtonCallback): void {
@@ -244,7 +244,7 @@ export class GameUI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param str {string} The content to display next to "Current Card"
 	 * @param color {string} The content's color.
 	 * @example
@@ -257,29 +257,46 @@ export class GameUI {
 		CurrentCardLabel.style.color = color ?? 'black';
 	}
 
-	#setButtonColor(button:HTMLButtonElement, bgColor?:string, textColor?:string, borderColor?:string){
-		if(bgColor){
+	#setButtonColor(
+		button: HTMLButtonElement,
+		bgColor?: string,
+		textColor?: string,
+		borderColor?: string
+	) {
+		if (bgColor) {
 			button.style.background = bgColor;
 		}
 
-		if(textColor){
+		if (textColor) {
 			button.style.color = textColor;
 		}
 
-		if(borderColor){
+		if (borderColor) {
 			button.style.borderWidth = '1px';
 			button.style.borderStyle = 'solid';
 			button.style.borderColor = borderColor;
 		}
 	}
 
-	setHigherBetButtonColor(bgColor:string, textColor?:string, borderColor?:string){
+	setHigherBetButtonColor(bgColor: string, textColor?: string, borderColor?: string) {
 		this.#setButtonColor(GameBetterCardBtn, bgColor, textColor, borderColor);
 		return this;
 	}
 
-	setLowerBetButtonColor(bgColor:string, textColor?:string, borderColor?:string){
+	setLowerBetButtonColor(bgColor: string, textColor?: string, borderColor?: string) {
 		this.#setButtonColor(GameWorseCardBtn, bgColor, textColor, borderColor);
+		return this;
+	}
+
+	setButtonsShape(shape: ButtonShape) {
+		const buttons = Object.values(GAME_BUTTONS);
+		buttons.forEach((btn) => {
+			if (shape === ButtonShape.CIRCLE) {
+				btn.classList.add('circular');
+			} else {
+				btn.classList.remove('circular');
+			}
+		});
 		return this;
 	}
 }

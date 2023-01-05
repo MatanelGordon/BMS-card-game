@@ -2,6 +2,7 @@ import { BetType, ButtonShape, GameStatus } from './types';
 import {
 	CurrentCardLabel,
 	GameBetterCardBtn,
+	GameResetBtn,
 	GameWorseCardBtn,
 	GAME_BUTTONS,
 	MainContent,
@@ -30,32 +31,6 @@ export class GameUI {
 
 		this.#gameSettings.lock(true);
 		this.#setStatus(GameStatus.PLAYING);
-	}
-
-	/**
-	 * Transform your game to advanced mode including a popup window that will allow further customization.
-	 *
-	 * `NOTE: This function can only be called once`
-	 *
-	 * @example To use this function:
-	 * ```javascript
-	 * // right below the imports in main.ts file
-	 * gameUI.advancedMode();
-	 * ```
-	 */
-	advancedMode() {
-		if (this.#isAdvancedModeCalled) {
-			throw new Error('Cannot call AdvancedMode more than once');
-		}
-
-		this.#isAdvancedModeCalled = true;
-
-		this.#gameSettings.lock(false);
-		this.#setStatus(GameStatus.IDLE);
-		this.onGameStart(() => {
-			this.reset();
-			this.#setStatus(GameStatus.PLAYING);
-		});
 	}
 
 	#disableGame(disable: boolean) {
@@ -129,7 +104,32 @@ export class GameUI {
 	}
 
 	/**
-	 * Sets an event for when the game starts
+	 * Transform your game to advanced mode including a popup window that will allow further customization.
+	 *
+	 * `NOTE: This function can only be called once`
+	 *
+	 * @example To use this function:
+	 * ```javascript
+	 * // right below the imports in main.ts file
+	 * gameUI.advancedMode();
+	 * ```
+	 */
+	advancedMode() {
+		if (this.#isAdvancedModeCalled) {
+			throw new Error('Cannot call AdvancedMode more than once');
+		}
+
+		this.#isAdvancedModeCalled = true;
+		this.#gameSettings.lock(false);
+		this.#setStatus(GameStatus.IDLE);
+		this.onGameStart(() => {
+			this.reset();
+			this.#setStatus(GameStatus.PLAYING);
+		});
+	}
+
+	/**
+	 * Sets an event for when the game starts in advanced mode
 	 * @param func The Function to call when game starts
 	 * @example
 	 * ```javascript
@@ -141,11 +141,30 @@ export class GameUI {
 	 * ```
 	 */
 	onGameStart(func: SettingsApplyCallback): void {
+		if (!this.#isAdvancedModeCalled) {
+			console.warn('warning: onGameStart WILL NOT WORK if you are not in advanced mode');
+		}
+
 		this.#gameSettings.onSettingsApply(func);
 	}
 
 	/**
-	 * Sets a function to be called when the "Higher" button is clicked
+	 * Sets a function to be called every time the "Reset" button is clicked
+	 * @param func {function} A Function to call when the the button is clicked
+	 * @example
+	 * ```javascript
+	 * import gameUi from '@ui';
+	 * gameUi.onResetClick(() => {
+	 * 	console.log('The user pressed Reset');
+	 * });
+	 * ```
+	 */
+	onResetClick(func: () => void) {
+		GameResetBtn.addEventListener('click', func);
+	}
+
+	/**
+	 * Sets a function to be called every time the "Higher" button is clicked
 	 * @param func {BetButtonCallback} A function that runs whenever the "Higher" button is clicked
 	 * @example
 	 * ```javascript
@@ -170,7 +189,7 @@ export class GameUI {
 	}
 
 	/**
-	 * Sets a function to be called when the "Lower" button is clicked
+	 * Sets a function to be called every time the "Lower" button is clicked
 	 * @param func {BetButtonCallback} A function that runs whenever the "Lower" button is clicked
 	 * @example
 	 * ```javascript
@@ -190,7 +209,7 @@ export class GameUI {
 	}
 
 	/**
-	 * Sets a function to be called when either the "Lower" or "Higher" buttons are clicked
+	 * Sets a function to be called every time either the "Lower" or "Higher" buttons are clicked
 	 * @param func {GeneralBetButtonCallback} A function that runs whenever one of the buttons is clicked
 	 * @example if you want in a single function to control both the "Lower" and "Higher" buttons
 	 * ```typescript
@@ -259,9 +278,9 @@ export class GameUI {
 	 * ```
 	 */
 	reset() {
-		this.#setStatus(GameStatus.IDLE);
 		this.setScore(0);
 		this.setCurrentCard('', 'black');
+		this.#setStatus(this.#isAdvancedModeCalled ? GameStatus.IDLE : GameStatus.PLAYING);
 	}
 
 	/**
@@ -284,11 +303,11 @@ export class GameUI {
 	 * @param textColor - Text color
 	 * @param borderColor - Border color
 	 * @returns the same gameUI reference to allow method-chaining
-	 * @example 
+	 * @example
 	 * ```javascript
 	 * gameUI.setHigherBetButtonColor("greenlime");
 	 * ```
-	 * @example 
+	 * @example
 	 * And using method-chaining
 	 * ```javascript
 	 * gameUI
@@ -308,11 +327,11 @@ export class GameUI {
 	 * @param textColor - Text color
 	 * @param borderColor - Border color
 	 * @returns the same gameUI reference to allow method-chaining
-	 * @example 
+	 * @example
 	 * ```javascript
 	 * gameUI.setLowerBetButtonColor("greenlime");
 	 * ```
-	 * @example 
+	 * @example
 	 * And using method-chaining
 	 * ```javascript
 	 * gameUI
@@ -330,16 +349,16 @@ export class GameUI {
 	 * Customizes the buttons' shape
 	 * @param shape {ButtonShape} the wanted shape
 	 * @returns the same gameUI reference to allow method-chaining
-	 * @example 
+	 * @example
 	 * ```javascript
 	 * gameUI.setButtonsShape(ButtonShape.RECT);
 	 * ```
-	 * 
+	 *
 	 * @example For Circular Buttons
 	 * ```javascript
 	 * gameUI.setButtonsShape(ButtonShape.CIRCLE);
 	 * ```
-	 * @example 
+	 * @example
 	 * And using method-chaining
 	 * ```javascript
 	 * gameUI

@@ -1,6 +1,8 @@
 :root {
 	--bg-color: #fefefe;
 	--b-radius: 4px;
+    --win-color: #9fcc2e;
+    --lose-color: #cc2e38;
 }
 
 * {
@@ -12,7 +14,7 @@ body {
 	background-color: var(--bg-color);
 }
 
-button:disabled{
+button:disabled {
 	filter: grayscale(1);
 	cursor: not-allowed;
 }
@@ -26,6 +28,7 @@ button:not(:disabled) {
 }
 
 .main-content {
+	--shadow-color: rgb(100 100 100 / 30%);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,14 +39,28 @@ button:not(:disabled) {
 	max-width: 80vmin;
 	max-height: 80vmin;
 	padding: 7rem;
-	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3), inset 3px 3px 10px rgba(100, 100, 100, 0.2);
+	box-shadow: 3px 3px 10px var(--shadow-color), inset 3px 3px 10px rgb(100 100 100 / 0.2);
 	border-radius: var(--b-radius);
+	border: 2px solid transparent;
+}
+
+.main-content.fixed-status {
+	--color: #ccc;
+	border-color: var(--color);
+	--shadow-color: var(--color);
+}
+
+.main-content.win {
+	--color: var(--win-color);
+}
+
+.main-content.lose {
+	--color: var(--lose-color);
 }
 
 .main-content .game-button {
 	--clr: #ccc;
 	--size: 120px;
-	border-radius: 50%;
 	background-color: var(--clr);
 	width: var(--size);
 	height: var(--size);
@@ -52,13 +69,17 @@ button:not(:disabled) {
 	transition: box-shadow 0.2s ease-out;
 }
 
+.main-content .game-button.circular{
+	border-radius: 50%;
+}
+
 .main-content .game-button.reset-button {
 	--size: 50px;
 	--clr: #303030;
 	position: absolute;
 	top: 5px;
 	left: 5px;
-	font-size: .8em;
+	font-size: 0.8em;
 	border-radius: 50%;
 	border: none;
 	color: #fff;
@@ -91,20 +112,20 @@ button:not(:disabled) {
 	font-weight: 600;
 }
 
-.game-container .game-button{
+.game-container .game-button {
 	font-size: 2em;
 }
 
-.game-container .better-bet {
-	--clr: #9fcc2e;
+.game-container .higher-bet {
+	--clr: var(--win-color);
 }
 
-.game-container .worse-bet {
-	--clr: #c61316;
+.game-container .lower-bet {
+	--clr: var(--lose-color);
 	color: white;
 }
 
-.main-content .game-status{
+.main-content .game-status {
 	position: absolute;
 	bottom: 0;
 	border-top: #ccc 1px solid;
@@ -115,10 +136,9 @@ button:not(:disabled) {
 	padding: 10px;
 }
 
-.main-content .game-status .current-card{
+.main-content .game-status .current-card {
 	grid-column-start: span 2;
 }
-
 
 .game-settings {
 	display: grid;
@@ -133,11 +153,15 @@ button:not(:disabled) {
 	border-radius: var(--b-radius);
 }
 
+.game-settings:not([open]) {
+	display: none;
+}
+
 .game-settings * {
 	width: 100%;
 }
 
-.game-settings__select{
+.game-settings__select {
 	padding: 10px;
 	margin-top: 5px;
 }

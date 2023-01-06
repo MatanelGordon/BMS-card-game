@@ -2,24 +2,25 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<link rel="icon" href="assets/favicon-dark.ico" media="(prefers-color-scheme: dark)" />
+		<link rel="icon" href="assets/favicon-light.ico" media="(prefers-color-scheme: light)" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite App</title>
+		<title>Card Game</title>
 	</head>
 	<body>
-		<main class="main-content">
+		<main class="main-content" id="MainContent">
 			<button class="game-button blurry-hover reset-button" id="Reset">reset</button>
 			<section class="game-container">
 				<label class="label game-label">Next Card Will be:</label>
-				<button class="game-button button-l blurry-hover better-bet" id="BetterCardButton">
-					Better
+				<button class="game-button button-l blurry-hover higher-bet circular" id="BetterCardButton">
+					Higher
 				</button>
-				<button class="game-button button-r blurry-hover worse-bet" id="WorseCardButton">
-					Worse
+				<button class="game-button button-r blurry-hover lower-bet circular" id="WorseCardButton">
+					Lower
 				</button>
 			</section>
 			<div class="game-status" id="GameStatusContainer">
-				<div>Score: <label id="Score"></label></div>
+				<div>Score: <label id="Score">0</label></div>
 				<div>Status: <label id="Status"></label></div>
 				<div class="current-card">Current Card: <label id="CurrentCard"></label></div>
 			</div>
@@ -30,7 +31,7 @@
 				<label for="DeckSelect">Deck Source</label>
 				<select class="game-settings__select" id="DeckSelect">
 					<option value="" selected>Select Deck Source</option>
-					<option value="FILE">Take from configuration</option>
+					<option value="CONFIG_FILE">Take from configuration</option>
 					<option value="AUTO_GENERATED">Create a new deck</option>
 				</select>
 			</div>
@@ -46,6 +47,6 @@
 			<button class="game-settings__start-button blurry-hover" id="StartButton">Start</button>
 		</dialog>
 
-		<script type="module" src="/src/main.ts"></script>
+		<script type="module" src="/src/index.ts"></script>
 	</body>
 </html>

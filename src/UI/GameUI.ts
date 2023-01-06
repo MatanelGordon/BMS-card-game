@@ -31,6 +31,7 @@ export class GameUI {
 
 		this.#gameSettings.lock(true);
 		this.#setStatus(GameStatus.PLAYING);
+		this.onResetClick(this.reset.bind(this));
 	}
 
 	#disableGame(disable: boolean) {

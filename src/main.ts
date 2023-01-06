@@ -25,7 +25,7 @@ gameUI.onGameStart((deckSource, pickType) => {
 	}
 
 	const pickStrategy = createPickStrategy(pickType);
-
+		
 	game.startGame(deckBuilder.getDeck(), pickStrategy);
 	gameUI.setCurrentCard(game.card.toString());
 });

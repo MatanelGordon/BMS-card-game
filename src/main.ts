@@ -1,39 +1,51 @@
-import CardsConfig from './deck-sample.json';
-import { Card } from './logic/Card';
+import gameUI from '@ui';
+import { createPickStrategy } from './logic/pickers/createPickStrategy';
+import deckFile from './deck-sample.json';
 import { DeckBuilder } from './logic/DeckBuilder';
 import { Game } from './logic/Game';
+import { BetType } from './logic/types';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
-import './style.css';
-import { GameSettingsUI } from './UI/GameSettingsUI';
-import { GameUI } from './UI/GameUI';
-import { DeckSource, PickType } from './UI/types';
-import { createPickStrategyByType } from './UI/utils';
+import { DeckSource, GameStatus } from './types';
 
-const gameSettings = new GameSettingsUI();
-const gameUI = new GameUI<Card>();
+const comperator = new ValueFirstCardComperator();
+let game = new Game(comperator);
 
-gameSettings.init();
-gameUI.init();
+gameUI.advancedMode();
 
-gameSettings.onSettingsApply((deckSource: DeckSource, pickType: PickType) => {
+gameUI.onGameStart((deckSource, pickType) => {
 	const deckBuilder = new DeckBuilder();
 
 	switch (deckSource) {
+		case DeckSource.CONFIG_FILE:
+			deckBuilder.fromJson(deckFile);
+			break;
 		case DeckSource.AUTO_GENERATED:
 			deckBuilder.addCardsValuesToAllTypes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).shuffle();
 			break;
-		case DeckSource.FILE:
-			deckBuilder.fromJson(CardsConfig);
-			break;
 	}
 
-	const valueFirstComperator = new ValueFirstCardComperator();
-	const pickStrategyInstance = createPickStrategyByType(pickType);
+	const pickStrategy = createPickStrategy(pickType);
+		
+	game.startGame(deckBuilder.getDeck(), pickStrategy);
+	gameUI.setCurrentCard(game.card.toString());
+});
 
-	const game = new Game(valueFirstComperator);
-	const deck = deckBuilder.getDeck();
+gameUI.onHigherBetClick(() => {
+	game.bet(BetType.HIGHER);
+});
 
-	gameUI.loadGame(game);
-	gameUI.startGame(deck, pickStrategyInstance);
-	gameUI.show(true);
+gameUI.onLowerBetClick(() => {
+	game.bet(BetType.LOWER);
+});
+
+gameUI.onBetClick(() => {
+	gameUI.setScore(game.score);
+	const status = game.status;
+
+	if(status === GameStatus.WIN){
+		gameUI.winGame()
+	}
+	else if (status === GameStatus.LOSE){
+		gameUI.loseGame();
+	}
 });

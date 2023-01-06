@@ -16,6 +16,10 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@ui": ["UI/index.ts"]
+    }
   },
   "include": ["src"]
 }

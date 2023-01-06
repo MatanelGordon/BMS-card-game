@@ -52,9 +52,10 @@ export class Game<TCard> {
 	bet(bet: BetType) {
 		if (this.isOver) return;
 
-		const res = this.drawCard() === bet;
+		const draw = this.drawCard();		
+		const isCorrect = draw === bet;
 
-		if (res) {
+		if (isCorrect) {
 			this.currentScore++;
 		} else {
 			this.gameStatus = GameStatus.LOSE;
@@ -72,6 +73,6 @@ export class Game<TCard> {
 		const nextCard = this.deck[this.currentDeckIndex++];
 		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
 		
-		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
+		return compareResult >= 0 ? BetType.HIGHER : BetType.LOWER;
 	}
 }

@@ -131,13 +131,16 @@ export class GameUI {
 
 	/**
 	 * Sets an event for when the game starts in advanced mode
-	 * @param func The Function to call when game starts
-	 * @example
+	 * 
+	 * NOTE: this function can only be called if advanced mode is activated
+	 * @param func {SettingsApplyCallback} The Function to call when game starts - the function receives the settings and should return void
+	 * @example To get the settings of the game
 	 * ```javascript
-	 * import gameUi from '@ui';
-	 *
-	 * gameUi.onGameStart(() => {
+	 * imprt gameUi from '@ui';
+	 * gameUi.onGameStart((deckSource: DeckSource, pickStrategy: PickStrategy) => {
 	 * 	console.log('Game started');
+	 * 	console.log('deckSource', deckSource);
+	 * 	console.log('pickStrategy', pickStrategy);
 	 * })
 	 * ```
 	 */

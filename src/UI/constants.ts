@@ -1,4 +1,4 @@
-import { BetType, GameStatus } from "./types";
+import { BetType, GameStatus } from "../types";
 
 export const MainContent = document.querySelector<HTMLDivElement>('#MainContent')!;
 

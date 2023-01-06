@@ -1,4 +1,4 @@
-import { DeckSource } from './types';
+import { DeckSource } from '../types';
 
 const isDeckSourceKey = (value: string): value is keyof typeof DeckSource =>
 	Object.keys(DeckSource).includes(value);

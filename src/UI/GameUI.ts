@@ -1,4 +1,3 @@
-import { BetType, ButtonShape, GameStatus } from './types';
 import {
 	CurrentCardLabel,
 	GameBetterCardBtn,
@@ -11,6 +10,8 @@ import {
 	STATUS_MSG,
 } from './constants';
 import { GameSettingsUI, SettingsApplyCallback } from './GameSettingsUI';
+import { ButtonShape } from './types';
+import { BetType, GameStatus } from '../types';
 
 export type BetButtonCallback = () => void;
 export type GeneralBetButtonCallback = (param: {

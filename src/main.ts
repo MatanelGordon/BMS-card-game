@@ -1,32 +1,22 @@
-import { DeckSource, gameUI, PickType } from '@ui';
+import gameUI from '@ui';
+import { createPickStrategy } from './logic/pickers/createPickStrategy';
 import deckFile from './deck-sample.json';
-import { Card } from './logic/Card';
 import { DeckBuilder } from './logic/DeckBuilder';
 import { Game } from './logic/Game';
-import { FirstCardPickStrategy, RandomCardPickStrategy } from './logic/pickers';
-import { BetType, IPickStrategy } from './logic/types';
+import { BetType } from './logic/types';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
-import './style.css';
-
-export const createPickStrategyByType = (pickStrategy: PickType): IPickStrategy<Card> => {
-	switch (pickStrategy) {
-		case PickType.RANDOM:
-			return new RandomCardPickStrategy<Card>();
-
-		case PickType.FIRST:
-		default:
-			return new FirstCardPickStrategy();
-	}
-};
+import { DeckSource, GameStatus } from './types';
 
 const comperator = new ValueFirstCardComperator();
 let game = new Game(comperator);
+
+gameUI.advancedMode();
 
 gameUI.onGameStart((deckSource, pickType) => {
 	const deckBuilder = new DeckBuilder();
 
 	switch (deckSource) {
-		case DeckSource.FILE:
+		case DeckSource.CONFIG_FILE:
 			deckBuilder.fromJson(deckFile);
 			break;
 		case DeckSource.AUTO_GENERATED:
@@ -34,21 +24,28 @@ gameUI.onGameStart((deckSource, pickType) => {
 			break;
 	}
 
-	const pickStrategy = createPickStrategyByType(pickType);
+	const pickStrategy = createPickStrategy(pickType);
 
 	game.startGame(deckBuilder.getDeck(), pickStrategy);
 	gameUI.setCurrentCard(game.card.toString());
 });
 
-gameUI.onBetterBetClick(() => {
+gameUI.onHigherBetClick(() => {
 	game.bet(BetType.HIGHER);
 });
 
-gameUI.onWorseBetClick(() => {
+gameUI.onLowerBetClick(() => {
 	game.bet(BetType.LOWER);
 });
 
-gameUI.onBetButtonClick(() => {
+gameUI.onBetClick(() => {
 	gameUI.setScore(game.score);
-	gameUI.setStatus(game.status);
+	const status = game.status;
+
+	if(status === GameStatus.WIN){
+		gameUI.winGame()
+	}
+	else if (status === GameStatus.LOSE){
+		gameUI.loseGame();
+	}
 });

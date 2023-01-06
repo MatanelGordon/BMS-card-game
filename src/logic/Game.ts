@@ -72,6 +72,6 @@ export class Game<TCard> {
 		const nextCard = this.deck[this.currentDeckIndex++];
 		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
 		
-		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
+		return compareResult >= 0 ? BetType.HIGHER : BetType.LOWER;
 	}
 }

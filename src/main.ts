@@ -41,11 +41,11 @@ gameUI.onGameStart((deckSource, pickType) => {
 });
 
 gameUI.onBetterBetClick(() => {
-	game.bet(BetType.BETTER);
+	game.bet(BetType.HIGHER);
 });
 
 gameUI.onWorseBetClick(() => {
-	game.bet(BetType.WORSE);
+	game.bet(BetType.LOWER);
 });
 
 gameUI.onBetButtonClick(() => {

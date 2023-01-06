@@ -31,6 +31,21 @@ export class Game<TCard> {
         return this.chosenCard;
     }
 
+	protected chooseCard(pickStrategy: IPickStrategy<TCard>) {
+		this.chosenCard = pickStrategy.pick(this.deck);
+		this.deck = this.deck.filter((card) => card !== this.chosenCard);
+	}
+
+	protected drawCard() {
+		if (!this.chosenCard) throw new Error('Cannot draw a card if no chosen card');
+		if (this.deck.length === 0) throw new Error('Cannot draw a card if deck is empty');
+
+		const nextCard = this.deck[this.currentDeckIndex++];
+		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
+		
+		return compareResult >= 0 ? BetType.HIGHER : BetType.LOWER;
+	}
+
 	reset(){
 		this.currentDeckIndex = 0;
 		this.currentScore = 0;
@@ -42,11 +57,6 @@ export class Game<TCard> {
 		this.deck = deck;
 		this.gameStatus = GameStatus.PLAYING;
 		this.chooseCard(pickStrategy);
-	}
-
-	protected chooseCard(pickStrategy: IPickStrategy<TCard>) {
-		this.chosenCard = pickStrategy.pick(this.deck);
-		this.deck = this.deck.filter((card) => card !== this.chosenCard);
 	}
 
 	bet(bet: BetType) {
@@ -63,15 +73,5 @@ export class Game<TCard> {
 		if (this.currentDeckIndex === this.deck.length) {
 			this.gameStatus = GameStatus.WIN;
 		}
-	}
-
-	protected drawCard() {
-		if (!this.chosenCard) throw new Error('Cannot draw a card if no chosen card');
-		if (this.deck.length === 0) throw new Error('Cannot draw a card if deck is empty');
-
-		const nextCard = this.deck[this.currentDeckIndex++];
-		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
-		
-		return compareResult >= 0 ? BetType.BETTER : BetType.WORSE;
 	}
 }

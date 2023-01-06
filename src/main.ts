@@ -1,1 +1,1 @@
-import gameUi from '@ui';
+import gameUI from '@ui';

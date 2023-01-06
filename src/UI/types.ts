@@ -1,9 +1,9 @@
 export enum DeckSource {
 	AUTO_GENERATED = 'AUTO_GENERATED',
-	FILE = 'FILE',
+	CONFIG_FILE = 'CONFIG_FILE',
 }
 
-export enum PickType {
+export enum PickStrategy {
 	FIRST = 'FIRST',
 	RANDOM = 'RANDOM',
 }

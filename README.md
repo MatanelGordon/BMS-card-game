@@ -3,14 +3,17 @@
 ## התחלת עבודה באזרחי (DEV PURPOSES ONLY)
 
  השתמשו בdegit על  מנת להוריד את הבוילרפלייט:
- ```bash
+ 
+```bash
 npx degit https://github.com/MatanelGordon/BMS-card-game#boilerplate
- ```
+```
 
  או אם אתם רוצים לפתוח את הפרוייקט בתיקייה מסויימת:
-  ```bash
+
+```bash
 npx degit https://github.com/MatanelGordon/BMS-card-game#boilerplate my-folder
- ```
+```
+
 ## התחלת עבודה
 
 ראשית, פתחו פרוייקט גיט באמצעות bitbucket, gitlab או TFS ותעשו clone אליכם למחשב.

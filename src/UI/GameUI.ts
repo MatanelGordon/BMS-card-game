@@ -315,6 +315,8 @@ export class GameUI {
 	 * @example
 	 * And using method-chaining
 	 * ```javascript
+	 * import gameUI, {ButtonShape} from '@ui';
+	 * 
 	 * gameUI
 	 * 	 .setHigherBetButtonColor("greenlime")
 	 * 	 .setLowerBetButtonColor("crimson")
@@ -339,6 +341,8 @@ export class GameUI {
 	 * @example
 	 * And using method-chaining
 	 * ```javascript
+	 * import gameUI, {ButtonShape} from '@ui';
+	 * 
 	 * gameUI
 	 * 	 .setHigherBetButtonColor("greenlime")
 	 * 	 .setLowerBetButtonColor("crimson")
@@ -366,6 +370,8 @@ export class GameUI {
 	 * @example
 	 * And using method-chaining
 	 * ```javascript
+	 * import gameUI, {ButtonShape} from '@ui';
+	 * 
 	 * gameUI
 	 * 	 .setHigherBetButtonColor("greenlime")
 	 * 	 .setLowerBetButtonColor("crimson")

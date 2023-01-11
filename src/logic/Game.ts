@@ -1,5 +1,5 @@
-import { BetType } from './types/BetType';
-import { IComparator, GameStatus, IPickStrategy } from './types';
+import { BetType, GameStatus } from '../types';
+import { IComparator, IPickStrategy } from './types';
 
 export class Game<TCard> {
 	protected readonly cardComperator: IComparator<TCard>;

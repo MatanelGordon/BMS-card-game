@@ -3,9 +3,8 @@ import { createPickStrategy } from './logic/pickers/createPickStrategy';
 import deckFile from './deck-sample.json';
 import { DeckBuilder } from './logic/DeckBuilder';
 import { Game } from './logic/Game';
-import { BetType } from './logic/types';
 import { ValueFirstCardComperator } from './logic/ValueFirstComperator';
-import { DeckSource, GameStatus } from './types';
+import { DeckSource, GameStatus, BetType } from './types';
 
 const comperator = new ValueFirstCardComperator();
 let game = new Game(comperator);
@@ -25,7 +24,7 @@ gameUI.onGameStart((deckSource, pickType) => {
 	}
 
 	const pickStrategy = createPickStrategy(pickType);
-		
+
 	game.startGame(deckBuilder.getDeck(), pickStrategy);
 	gameUI.setCurrentCard(game.card.toString());
 });
@@ -42,10 +41,9 @@ gameUI.onBetClick(() => {
 	gameUI.setScore(game.score);
 	const status = game.status;
 
-	if(status === GameStatus.WIN){
-		gameUI.winGame()
-	}
-	else if (status === GameStatus.LOSE){
+	if (status === GameStatus.WIN) {
+		gameUI.winGame();
+	} else if (status === GameStatus.LOSE) {
 		gameUI.loseGame();
 	}
 });

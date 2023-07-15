@@ -5,8 +5,8 @@ import {
 	SettingsPickStrategySelect,
 	SettingsStartButton,
 } from './constants';
-import { DeckSource, PickStrategy } from './types';
 import { toDeckSource } from './utils';
+import { DeckSource, PickStrategy } from '../types';
 
 export type SettingsApplyCallback = (deckSource: DeckSource, pickStrategy: PickStrategy) => void;
 export class GameSettingsUI {

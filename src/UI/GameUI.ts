@@ -68,7 +68,7 @@ export class GameUI {
 		button: HTMLButtonElement,
 		bgColor?: string,
 		textColor?: string,
-		borderColor?: string
+		borderColor?: string,
 	) {
 		if (bgColor) {
 			button.style.background = bgColor;
@@ -132,7 +132,7 @@ export class GameUI {
 
 	/**
 	 * Sets an event for when the game starts in advanced mode
-	 * 
+	 *
 	 * NOTE: this function can only be called if advanced mode is activated
 	 * @param func {SettingsApplyCallback} The Function to call when game starts - the function receives the settings and should return void
 	 * @example To get the settings of the game
@@ -374,7 +374,7 @@ export class GameUI {
 	 */
 	setButtonsShape(shape: ButtonShape) {
 		const buttons = Object.values(GAME_BUTTONS);
-		buttons.forEach((btn) => {
+		buttons.forEach(btn => {
 			if (shape === ButtonShape.CIRCLE) {
 				btn.classList.add('circular');
 			} else {

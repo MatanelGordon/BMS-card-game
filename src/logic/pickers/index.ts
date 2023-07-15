@@ -1,2 +1,2 @@
-export { FirstCardPickStrategy } from "./FirstCardPickStrategy";
-export { RandomCardPickStrategy } from "./RandomCardPickStrategy";
+export { FirstCardPickStrategy } from './FirstCardPickStrategy';
+export { RandomCardPickStrategy } from './RandomCardPickStrategy';

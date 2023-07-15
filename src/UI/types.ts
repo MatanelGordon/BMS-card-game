@@ -1,4 +1,4 @@
-export enum ButtonShape{
-    CIRCLE = 'CIRCLE',
-    RECT = 'RECT',
+export enum ButtonShape {
+	CIRCLE = 'CIRCLE',
+	RECT = 'RECT',
 }

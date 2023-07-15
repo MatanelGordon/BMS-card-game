@@ -2,15 +2,18 @@
 
 ## התחלת עבודה באזרחי (DEV PURPOSES ONLY)
 
- השתמשו בdegit על  מנת להוריד את הבוילרפלייט:
- ```bash
-npx degit https://github.com/MatanelGordon/BMS-card-game#boilerplate
- ```
+השתמשו בdegit על מנת להוריד את הבוילרפלייט:
 
- או אם אתם רוצים לפתוח את הפרוייקט בתיקייה מסויימת:
-  ```bash
+```bash
+npx degit https://github.com/MatanelGordon/BMS-card-game#boilerplate
+```
+
+או אם אתם רוצים לפתוח את הפרוייקט בתיקייה מסויימת:
+
+```bash
 npx degit https://github.com/MatanelGordon/BMS-card-game#boilerplate my-folder
- ```
+```
+
 ## התחלת עבודה
 
 ראשית, פתחו פרוייקט גיט באמצעות bitbucket, gitlab או TFS ותעשו clone אליכם למחשב.
@@ -52,7 +55,6 @@ git push origin master
 git checkout -b dev
 ```
 
-
 ## הרמת פרויקט
 
 התקינו את החבילות של הפרוייקט באופן הבא:
@@ -69,7 +71,7 @@ npm run dev
 
 היכנסו לכתובת שהוא מדפיס לכם, לרוב יהיה [`http://localhost:3000`](http://localhost:3000)
 
-****
+---
 
 ## קצת על הפרוייקט
 
@@ -80,7 +82,7 @@ npm run dev
 על מנת להשתמש ב-ui@ יש לייבא אותו בצורה הבאה:
 
 ```javascript
-import gameUI from "@ui";
+import gameUI from '@ui';
 ```
 
 דרך gameUI מספר פונקציות מונגשות:
@@ -143,15 +145,15 @@ import gameUI from "@ui";
 
 המשחק מתחיל רק כאשר המשתמש מסיים את האינטרקציה שלו עם חלונית ההגדרות.
 
-אפשרויות למקור החפיסה: 
+אפשרויות למקור החפיסה:
 
-- מיוצרת רנדומלית לבד
-- מתוך קונפיגורציה
+-   מיוצרת רנדומלית לבד
+-   מתוך קונפיגורציה
 
 אפרויות לאסטרטגיית לקיחת קלף:
 
-- הראשון בחפיסה
-- רנדומלי מהחפיסה
+-   הראשון בחפיסה
+-   רנדומלי מהחפיסה
 
 `הערה: יש להשתמש בפונקציה ()advancedMode פעם אחת בקוד ואך ורק בקובץ main.ts מתחת ל-imports`
 
@@ -159,7 +161,7 @@ import gameUI from "@ui";
 
 קובץ הטייפסקריפט הראשי הוא `main.ts`. בפרוייקט אתם תראו תיקיית UI שהוא הקוד שאחראי על לפשט את ההתעסקות עם ה-UI. אין לגעת בתיקייה או בקבצים בתוכה ללא אישור של המפקדים.
 
-כמה הערות על המשך העבודה: 
+כמה הערות על המשך העבודה:
 
 1. תוודאו שאתם מחלקים לקבצים - אין לעשות קובץ אחד ענק עם 500 שורות.
 
@@ -198,7 +200,7 @@ import gameUI from "@ui";
 ### תרגיל 3
 
 ```typescript
-const names: string[] = ["Shira", "Nitzan", "Noa"]
+const names: string[] = ['Shira', 'Nitzan', 'Noa'];
 ```
 
 עבור מערך זה של שמות, כתבו קוד שאחרי שלוחצים על שני הכפתורים השם יוחלף לשם הבא ברשימה.
@@ -229,8 +231,8 @@ const names: string[] = ["Shira", "Nitzan", "Noa"]
 
 צרו מחלקה בשם `Card` שתקבל 2 ערכים:
 
-- `value`: ערך מספרי של הקלף
-- `type`: סוג הקלף 
+-   `value`: ערך מספרי של הקלף
+-   `type`: סוג הקלף
 
 ממשו עבור המחלקה פונקציה `toString` שמציגה את ערך הקלף והסוג שלו בצורה קריאה
 
@@ -240,7 +242,7 @@ const names: string[] = ["Shira", "Nitzan", "Noa"]
 
 ![deckBuilder UML](./assets/DeckBuilder.png)
 
-- למחלקה אמורה להיות פונקציה שמקבלת רשימה של ערכים מספריים ועבור כל מספר מייצרת 4 קלפים מסוגים שונים אך אותו מספר. הפונקציה שומרת את הקלפים שנוצרו בתוך משתנה של המחלקה `cards`
+-   למחלקה אמורה להיות פונקציה שמקבלת רשימה של ערכים מספריים ועבור כל מספר מייצרת 4 קלפים מסוגים שונים אך אותו מספר. הפונקציה שומרת את הקלפים שנוצרו בתוך משתנה של המחלקה `cards`
 
 ```typescript
 addValuesToAllTypes(values: number[]):void
@@ -248,7 +250,7 @@ addValuesToAllTypes(values: number[]):void
 
 > עבור כל ערך, אם הוא לא בין 1 ל-10 אין להשתמש בו.
 
-- למחלקה אמורה להיות פונקציה שמקבלת אובייקט JSON שהוא מערך של  אובייקטים בו כל אובייקט מייצג קלף, והיא מוסיפה את הקלפים ל-`cards`
+-   למחלקה אמורה להיות פונקציה שמקבלת אובייקט JSON שהוא מערך של אובייקטים בו כל אובייקט מייצג קלף, והיא מוסיפה את הקלפים ל-`cards`
 
 ```typescript
 fromJson({type:string, value:number}[]): void
@@ -285,12 +287,13 @@ getDeck():Card[]
 ### Game
 
 צרו מחלקה בשם Game שתנהל את המשחק. זוהי המחלקה הראשית שתנהל את המשחק. על המחלקה לדעת לעשות את הדברים הבאים
-- לקבל באופן כלשהו את חפיסת הקלפים שנבנתה ב-DeckBuilder ולא את DeckBuilder עצמו
-- לנהל את הניקוד
-- לנהל את הקלף הנוכחי של המשתמש 
-- לנהל איזה קלף בחפיסה צריך לבדוק (עוברים על החפיסה קלף-קלף) 
-- לנהל אם המשתמש הפסיד, ניצח, או עדיין משחק
-- לאפשר לבצע הימור אם הקלף הנוכחי של המשתמש הוא ערך גבוה יותר או נמוך יותר מהקלף שצריך לבדוק בחפיסה
+
+-   לקבל באופן כלשהו את חפיסת הקלפים שנבנתה ב-DeckBuilder ולא את DeckBuilder עצמו
+-   לנהל את הניקוד
+-   לנהל את הקלף הנוכחי של המשתמש
+-   לנהל איזה קלף בחפיסה צריך לבדוק (עוברים על החפיסה קלף-קלף)
+-   לנהל אם המשתמש הפסיד, ניצח, או עדיין משחק
+-   לאפשר לבצע הימור אם הקלף הנוכחי של המשתמש הוא ערך גבוה יותר או נמוך יותר מהקלף שצריך לבדוק בחפיסה
 
 ## פתב״ס (DEV PURPOSES ONLY)
 
@@ -298,8 +301,8 @@ getDeck():Card[]
 
 The Game's logic has 2 major factors:
 
-- Card Picking at the beginning
-- Card Comparison algorithm
+-   Card Picking at the beginning
+-   Card Comparison algorithm
 
 Thus, these parts are being abstracted using interfaces `IPickStrategy<T>` and `IComperator<T>`.
 these abstractions can be replaced with functions but for the sake of SOLID (LSP) I used interfaces. it's important to tell them that although it's implemented here using interfaces, it should be implemented using functions.

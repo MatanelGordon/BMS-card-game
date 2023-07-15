@@ -8,14 +8,14 @@ export enum PickStrategy {
 	RANDOM = 'RANDOM',
 }
 
-export enum GameStatus{
-    IDLE = 'IDLE',
-    WIN = 'WIN',
-    LOSE = 'LOSE',
-    PLAYING = 'PLAYING',
+export enum GameStatus {
+	IDLE = 'IDLE',
+	WIN = 'WIN',
+	LOSE = 'LOSE',
+	PLAYING = 'PLAYING',
 }
 
 export enum BetType {
-    HIGHER = 'HIGHER',
-    LOWER = 'LOWER',
+	HIGHER = 'HIGHER',
+	LOWER = 'LOWER',
 }

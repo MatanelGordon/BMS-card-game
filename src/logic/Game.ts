@@ -1,5 +1,5 @@
-import { BetType } from './types/BetType';
-import { IComparator, GameStatus, IPickStrategy } from './types';
+import { BetType, GameStatus } from '../types';
+import { IComparator, IPickStrategy } from './types';
 
 export class Game<TCard> {
 	protected readonly cardComperator: IComparator<TCard>;
@@ -7,7 +7,7 @@ export class Game<TCard> {
 	protected currentScore: number = 0;
 	protected gameStatus: GameStatus = GameStatus.IDLE;
 
-    chosenCard?: TCard;
+	chosenCard?: TCard;
 	deck: TCard[] = [];
 
 	constructor(cardComperator: IComparator<TCard>) {
@@ -22,16 +22,16 @@ export class Game<TCard> {
 		return this.currentScore;
 	}
 
-    get status(){
-        return this.gameStatus;
-    }
+	get status() {
+		return this.gameStatus;
+	}
 
-    get card(){
-        if(!this.chosenCard) throw new Error('Cannot find chosen card');
-        return this.chosenCard;
-    }
+	get card() {
+		if (!this.chosenCard) throw new Error('Cannot find chosen card');
+		return this.chosenCard;
+	}
 
-	reset(){
+	reset() {
 		this.currentDeckIndex = 0;
 		this.currentScore = 0;
 		this.gameStatus = GameStatus.IDLE;
@@ -46,13 +46,13 @@ export class Game<TCard> {
 
 	protected chooseCard(pickStrategy: IPickStrategy<TCard>) {
 		this.chosenCard = pickStrategy.pick(this.deck);
-		this.deck = this.deck.filter((card) => card !== this.chosenCard);
+		this.deck = this.deck.filter(card => card !== this.chosenCard);
 	}
 
 	bet(bet: BetType) {
 		if (this.isOver) return;
 
-		const draw = this.drawCard();		
+		const draw = this.drawCard();
 		const isCorrect = draw === bet;
 
 		if (isCorrect) {
@@ -72,7 +72,7 @@ export class Game<TCard> {
 
 		const nextCard = this.deck[this.currentDeckIndex++];
 		const compareResult = this.cardComperator.compare(nextCard, this.chosenCard);
-		
+
 		return compareResult >= 0 ? BetType.HIGHER : BetType.LOWER;
 	}
 }

@@ -8,6 +8,9 @@
 		"preview": "vite preview",
 		"ts-check": "tsc --noEmit"
 	},
+  "engines": {
+    "node": ">= 16.0.0"
+  },
 	"devDependencies": {
 		"@types/node": "^16",
 		"prettier": "^3.0.0",

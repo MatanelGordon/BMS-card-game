@@ -1,8 +1,8 @@
 :root {
 	--bg-color: #fefefe;
 	--b-radius: 4px;
-    --win-color: #9fcc2e;
-    --lose-color: #cc2e38;
+	--win-color: #9fcc2e;
+	--lose-color: #cc2e38;
 }
 
 * {
@@ -24,7 +24,9 @@ button:not(:disabled) {
 }
 
 .blurry-hover:hover {
-	box-shadow: inset 0 0 10px #aaa, 0 0 10px 1px var(--clr, gray);
+	box-shadow:
+		inset 0 0 10px #aaa,
+		0 0 10px 1px var(--clr, gray);
 }
 
 .main-content {
@@ -39,7 +41,9 @@ button:not(:disabled) {
 	max-width: 80vmin;
 	max-height: 80vmin;
 	padding: 7rem;
-	box-shadow: 3px 3px 10px var(--shadow-color), inset 3px 3px 10px rgb(100 100 100 / 0.2);
+	box-shadow:
+		3px 3px 10px var(--shadow-color),
+		inset 3px 3px 10px rgb(100 100 100 / 0.2);
 	border-radius: var(--b-radius);
 	border: 2px solid transparent;
 }
@@ -69,7 +73,7 @@ button:not(:disabled) {
 	transition: box-shadow 0.2s ease-out;
 }
 
-.main-content .game-button.circular{
+.main-content .game-button.circular {
 	border-radius: 50%;
 }
 

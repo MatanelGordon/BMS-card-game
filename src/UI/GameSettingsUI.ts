@@ -10,7 +10,7 @@ import { toDeckSource } from './utils';
 
 export type SettingsApplyCallback = (deckSource: DeckSource, pickStrategy: PickStrategy) => void;
 export class GameSettingsUI {
-	private static LOCKED_ATTR = "data-locked";
+	private static LOCKED_ATTR = 'data-locked';
 	#deckSource?: DeckSource;
 	#pickStrategy?: PickStrategy;
 
@@ -29,24 +29,23 @@ export class GameSettingsUI {
 
 		SettingsStartButton.addEventListener('click', () => {
 			this.show(false);
-		})
+		});
 
 		GameResetBtn.addEventListener('click', () => {
 			this.show(true);
-		})
+		});
 
 		this.updateStartButton();
 		this.show(true);
 	}
 
 	show(mode: boolean) {
-		
-		if(this.isLocked){
+		if (this.isLocked) {
 			SettingsContainer.close();
 			return;
 		}
 
-		if(mode === SettingsContainer.hasAttribute('open')) return;
+		if (mode === SettingsContainer.hasAttribute('open')) return;
 
 		if (mode) {
 			SettingsContainer.showModal();
@@ -64,16 +63,15 @@ export class GameSettingsUI {
 	}
 
 	lock(mode: boolean) {
-		if(mode){
-			SettingsContainer.setAttribute(GameSettingsUI.LOCKED_ATTR, "true");
+		if (mode) {
+			SettingsContainer.setAttribute(GameSettingsUI.LOCKED_ATTR, 'true');
 			this.show(false);
-		}
-		else{
+		} else {
 			SettingsContainer.removeAttribute(GameSettingsUI.LOCKED_ATTR);
-		}		
+		}
 	}
 
-	private get isLocked(){
+	private get isLocked() {
 		return SettingsContainer.hasAttribute(GameSettingsUI.LOCKED_ATTR);
 	}
 

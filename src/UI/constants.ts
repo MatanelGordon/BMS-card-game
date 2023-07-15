@@ -1,4 +1,4 @@
-import { BetType, GameStatus } from "../types";
+import { BetType, GameStatus } from '../types';
 
 export const MainContent = document.querySelector<HTMLDivElement>('#MainContent')!;
 
@@ -18,13 +18,13 @@ export const StatusLabel = document.querySelector<HTMLElement>('#Status')!;
 export const CurrentCardLabel = document.querySelector<HTMLElement>('#CurrentCard')!;
 
 export const STATUS_MSG: Record<GameStatus, string> = {
-    [GameStatus.IDLE]: "Not Running",
-    [GameStatus.PLAYING]: "Running...",
-    [GameStatus.WIN]: "You Won!",
-    [GameStatus.LOSE]: "You Lost"
-}
+	[GameStatus.IDLE]: 'Not Running',
+	[GameStatus.PLAYING]: 'Running...',
+	[GameStatus.WIN]: 'You Won!',
+	[GameStatus.LOSE]: 'You Lost',
+};
 
 export const GAME_BUTTONS: Record<BetType, HTMLButtonElement> = {
-    [BetType.LOWER]: GameWorseCardBtn,
-    [BetType.HIGHER]: GameBetterCardBtn
+	[BetType.LOWER]: GameWorseCardBtn,
+	[BetType.HIGHER]: GameBetterCardBtn,
 };
